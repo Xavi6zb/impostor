@@ -1,559 +1,996 @@
-const decks = {
-  Animales: [
+const app = document.querySelector("#app");
+
+const DEFAULT_PLAYERS = ["Clara", "Mateo", "Lucía", "Pablo", "Sara", "Diego"];
+
+const DECKS = {
+  animales: [
     { word: "Gato", clue: "Pelo" },
     { word: "Perro", clue: "Correa" },
+    { word: "Caballo", clue: "Montura" },
     { word: "Tiburón", clue: "Aleta" },
-    { word: "Caballo", clue: "Crin" },
-    { word: "Pingüino", clue: "Hielo" },
     { word: "León", clue: "Melena" },
-    { word: "Serpiente", clue: "Escamas" },
+    { word: "Pingüino", clue: "Hielo" },
     { word: "Elefante", clue: "Trompa" },
-    { word: "Mariposa", clue: "Alas" },
-    { word: "Tortuga", clue: "Caparazón" },
+    { word: "Serpiente", clue: "Escamas" },
+    { word: "Águila", clue: "Cielo" },
+    { word: "Delfín", clue: "Mar" },
     { word: "Conejo", clue: "Zanahoria" },
-    { word: "Águila", clue: "Plumas" }
+    { word: "Oso", clue: "Miel" }
   ],
-  Comida: [
+  comida: [
     { word: "Pizza", clue: "Queso" },
     { word: "Sushi", clue: "Arroz" },
-    { word: "Croquetas", clue: "Bechamel" },
-    { word: "Paella", clue: "Azafrán" },
     { word: "Hamburguesa", clue: "Pan" },
     { word: "Chocolate", clue: "Cacao" },
+    { word: "Paella", clue: "Azafrán" },
     { word: "Helado", clue: "Frío" },
     { word: "Tortilla", clue: "Huevo" },
-    { word: "Churros", clue: "Azúcar" },
-    { word: "Gazpacho", clue: "Tomate" },
-    { word: "Tacos", clue: "Maíz" },
-    { word: "Pasta", clue: "Salsa" }
+    { word: "Croissant", clue: "Mantequilla" },
+    { word: "Taco", clue: "Maíz" },
+    { word: "Café", clue: "Taza" }
   ],
-  Lugares: [
-    { word: "Aeropuerto", clue: "Maleta" },
+  lugares: [
     { word: "Playa", clue: "Arena" },
     { word: "Hospital", clue: "Camilla" },
     { word: "Biblioteca", clue: "Silencio" },
-    { word: "Cine", clue: "Pantalla" },
-    { word: "Hotel", clue: "Recepción" },
-    { word: "Gimnasio", clue: "Pesas" },
+    { word: "Aeropuerto", clue: "Maleta" },
+    { word: "Castillo", clue: "Muralla" },
     { word: "Museo", clue: "Cuadro" },
-    { word: "Restaurante", clue: "Carta" },
-    { word: "Estación", clue: "Andén" },
-    { word: "Supermercado", clue: "Carrito" },
-    { word: "Montaña", clue: "Cumbre" }
+    { word: "Gimnasio", clue: "Pesas" },
+    { word: "Teatro", clue: "Telón" },
+    { word: "Mercado", clue: "Puesto" },
+    { word: "Montaña", clue: "Cima" }
   ],
-  Objetos: [
+  objetos: [
+    { word: "Teléfono", clue: "Pantalla" },
     { word: "Reloj", clue: "Hora" },
-    { word: "Llave", clue: "Puerta" },
-    { word: "Sombrero", clue: "Cabeza" },
     { word: "Paraguas", clue: "Lluvia" },
-    { word: "Espejo", clue: "Reflejo" },
-    { word: "Teléfono", clue: "Llamada" },
-    { word: "Mapa", clue: "Ruta" },
+    { word: "Llave", clue: "Puerta" },
+    { word: "Gafas", clue: "Cristal" },
     { word: "Mochila", clue: "Espalda" },
-    { word: "Vela", clue: "Fuego" },
-    { word: "Carta", clue: "Sobre" },
     { word: "Cámara", clue: "Foto" },
-    { word: "Anillo", clue: "Dedo" }
+    { word: "Libro", clue: "Página" },
+    { word: "Vela", clue: "Fuego" },
+    { word: "Mapa", clue: "Ruta" }
   ],
-  Acciones: [
-    { word: "Correr", clue: "Velocidad" },
-    { word: "Cantar", clue: "Voz" },
-    { word: "Bailar", clue: "Ritmo" },
-    { word: "Cocinar", clue: "Receta" },
-    { word: "Dormir", clue: "Sueño" },
-    { word: "Nadar", clue: "Agua" },
-    { word: "Leer", clue: "Libro" },
-    { word: "Viajar", clue: "Destino" },
-    { word: "Comprar", clue: "Bolsa" },
-    { word: "Pintar", clue: "Color" },
-    { word: "Conducir", clue: "Volante" },
-    { word: "Esconder", clue: "Secreto" }
+  cultura: [
+    { word: "Cine", clue: "Pantalla" },
+    { word: "Música", clue: "Ritmo" },
+    { word: "Fútbol", clue: "Gol" },
+    { word: "Magia", clue: "Truco" },
+    { word: "Carnaval", clue: "Disfraz" },
+    { word: "Cumpleaños", clue: "Tarta" },
+    { word: "Navidad", clue: "Regalo" },
+    { word: "Boda", clue: "Anillo" },
+    { word: "Viaje", clue: "Billete" },
+    { word: "Universidad", clue: "Examen" }
   ]
 };
 
-const fallbackClues = [
-  "Relacionado", "Parecido", "Cerca", "Pista", "Categoría", "Señal", "Detalle", "Sospecha"
-];
+const DEFAULT_CUSTOM = `Gato - Pelo\nPlaya - Arena\nPizza - Queso\nTeléfono - Pantalla\nAeropuerto - Maleta`;
 
-const state = {
-  players: [],
-  mode: "builtin",
-  category: "Animales",
-  round: 1,
-  totalRounds: 5,
-  word: "",
-  clue: "",
-  impostorIndexes: new Set(),
-  revealIndex: 0,
-  roleVisible: false,
-  selectedVoteIndex: null,
+let state = loadState() || {
+  screen: "setup",
+  players: DEFAULT_PLAYERS.map((name) => createPlayer(name)),
+  playerInput: "",
+  impostorCount: 1,
+  category: "animales",
+  mode: "included",
+  customRaw: DEFAULT_CUSTOM,
   timerSeconds: 90,
-  timerRemaining: 90,
-  timerId: null,
-  timerPaused: false
+  roundLimit: 5,
+  currentRound: 1,
+  currentRevealIndex: 0,
+  revealOpen: false,
+  assignment: null,
+  timerLeft: 90,
+  timerRunning: false,
+  selectedVotes: [],
+  error: ""
 };
 
-const $ = (id) => document.getElementById(id);
+let timerId = null;
+let dragState = null;
 
-const screens = [
-  "screenSetup",
-  "screenRules",
-  "screenReveal",
-  "screenRound",
-  "screenVote",
-  "screenResult"
-];
-
-function showScreen(screenId) {
-  screens.forEach((id) => $(id).classList.toggle("active", id === screenId));
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function createPlayer(name) {
+  return {
+    id: cryptoRandomId(),
+    name: name.trim()
+  };
 }
 
-function normalizeLines(value) {
-  return value
-    .split("\n")
-    .map((item) => item.trim())
-    .filter(Boolean);
+function cryptoRandomId() {
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return `id-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
-function shuffle(array) {
-  const copy = [...array];
-  for (let i = copy.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
+function saveState() {
+  const safe = { ...state, timerRunning: false };
+  localStorage.setItem("el-impostor-state-v2", JSON.stringify(safe));
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem("el-impostor-state-v2");
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
   }
-  return copy;
 }
 
-function randomItem(array) {
-  return array[Math.floor(Math.random() * array.length)];
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
-function formatTime(totalSeconds) {
-  const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
-  const seconds = (totalSeconds % 60).toString().padStart(2, "0");
-  return `${minutes}:${seconds}`;
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
 }
 
-function plural(value, singular, pluralText) {
-  return value === 1 ? singular : pluralText;
+function initials(name) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("") || "?";
 }
 
-function safeText(value) {
-  const element = document.createElement("span");
-  element.textContent = value;
-  return element.innerHTML;
+function getDeck() {
+  if (state.mode === "custom") {
+    const custom = parseCustomDeck(state.customRaw);
+    return custom.length ? custom : [];
+  }
+  return DECKS[state.category] || DECKS.animales;
 }
 
-function savePlayers(players) {
-  localStorage.setItem("impostor:lastPlayers", players.join("\n"));
-}
-
-function loadPlayers() {
-  return localStorage.getItem("impostor:lastPlayers") || "";
-}
-
-function populateCategories() {
-  const select = $("categorySelect");
-  select.innerHTML = "";
-  Object.keys(decks).forEach((category) => {
-    const option = document.createElement("option");
-    option.value = category;
-    option.textContent = category;
-    select.appendChild(option);
-  });
-}
-
-function parseCustomDeck(value) {
-  return normalizeLines(value)
+function parseCustomDeck(raw) {
+  return raw
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
     .map((line) => {
-      const separators = ["|", ":", "-", "—"];
-      let separator = separators.find((item) => line.includes(item));
-
-      if (!separator) {
-        return {
-          word: line,
-          clue: randomItem(fallbackClues)
-        };
-      }
-
-      const [word, ...clueParts] = line.split(separator);
-      const cleanWord = word.trim();
-      const cleanClue = clueParts.join(separator).trim();
-
-      if (!cleanWord) return null;
-
-      return {
-        word: cleanWord,
-        clue: cleanClue || randomItem(fallbackClues)
-      };
+      const separator = line.includes(" - ") ? " - " : line.includes("-") ? "-" : line.includes(",") ? "," : null;
+      if (!separator) return null;
+      const [word, clue] = line.split(separator).map((part) => part.trim());
+      if (!word || !clue) return null;
+      return { word, clue };
     })
     .filter(Boolean);
 }
 
-function getCurrentDeck() {
-  if (state.mode === "custom") {
-    return parseCustomDeck($("customWordsInput").value);
-  }
-
-  return decks[$("categorySelect").value] || [];
+function pickRandom(items) {
+  return items[Math.floor(Math.random() * items.length)];
 }
 
-function getPlayersFromInput() {
-  return normalizeLines($("playersInput").value);
+function shuffle(items) {
+  return [...items].sort(() => Math.random() - 0.5);
 }
 
-function updatePlayersCount() {
-  const total = getPlayersFromInput().length;
-  $("playersCountLabel").textContent = `${total} ${plural(total, "jugador", "jugadores")}`;
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60).toString().padStart(2, "0");
+  const rest = Math.floor(seconds % 60).toString().padStart(2, "0");
+  return `${minutes}:${rest}`;
 }
 
-function updateFeatureStrip() {
-  const timer = Number($("timerInput").value);
-  const rounds = Number($("roundsInput").value);
-  $("featureTimer").textContent = timer === 0 ? "Sin temporizador" : formatTimerLabel(timer);
-  $("featureRounds").textContent = `${rounds} ${plural(rounds, "ronda", "rondas")}`;
+function currentPlayer() {
+  return state.players[state.currentRevealIndex];
 }
 
-function formatTimerLabel(seconds) {
-  if (seconds === 60) return "1 minuto";
-  if (seconds < 60) return `${seconds} segundos`;
-  if (seconds % 60 === 0) return `${seconds / 60} minutos`;
-  return `${seconds} segundos`;
-}
-
-function setMode(mode) {
-  state.mode = mode;
-  $("builtInModeButton").classList.toggle("active", mode === "builtin");
-  $("customModeButton").classList.toggle("active", mode === "custom");
-  $("categoryRow").classList.toggle("hidden", mode === "custom");
-  $("customWordsBlock").classList.toggle("hidden", mode !== "custom");
-}
-
-function changeImpostorCount(delta) {
-  const input = $("impostorCountInput");
-  const current = Number(input.value) || 1;
-  const next = Math.min(3, Math.max(1, current + delta));
-  input.value = String(next);
-}
-
-function validateSetup(players, impostorCount, deck) {
-  const lowerNames = players.map((name) => name.toLowerCase());
-
-  if (players.length < 3) return "Necesitas al menos 3 jugadores.";
-  if (new Set(lowerNames).size !== players.length) return "Hay nombres repetidos. Usa nombres distintos.";
-  if (impostorCount < 1) return "Debe haber al menos 1 impostor.";
-  if (impostorCount >= players.length) return "Debe haber menos impostores que jugadores.";
-  if (impostorCount > 3) return "Máximo 3 impostores para que el juego siga siendo claro.";
-  if (deck.length < 2) return "Necesitas al menos 2 parejas de palabra y pista.";
-
-  return "";
-}
-
-function createGame({ keepPlayers = false, keepRound = false } = {}) {
-  const players = keepPlayers ? state.players : getPlayersFromInput();
-  const impostorCount = keepPlayers ? state.impostorIndexes.size : Number($("impostorCountInput").value);
-  const deck = getCurrentDeck();
-  const error = validateSetup(players, impostorCount, deck);
-
-  if (error) {
-    $("setupError").textContent = error;
-    $("setupError").classList.remove("hidden");
-    return;
-  }
-
-  const selected = randomItem(deck);
-  const indexes = shuffle(players.map((_, index) => index)).slice(0, impostorCount);
-
-  state.players = players;
-  state.category = state.mode === "custom" ? "Personalizadas" : $("categorySelect").value;
-  state.word = selected.word;
-  state.clue = selected.clue;
-  state.impostorIndexes = new Set(indexes);
-  state.revealIndex = 0;
-  state.roleVisible = false;
-  state.selectedVoteIndex = null;
-  state.timerSeconds = Number($("timerInput").value);
-  state.timerRemaining = state.timerSeconds;
-  state.totalRounds = Number($("roundsInput").value);
-  state.round = keepRound ? Math.min(state.round + 1, state.totalRounds) : 1;
-  state.timerPaused = false;
-
-  savePlayers(players);
-  stopTimer();
-  $("setupError").classList.add("hidden");
-  renderStatus();
-  renderReveal();
-  showScreen("screenReveal");
-}
-
-function renderStatus() {
-  const impostorCount = state.impostorIndexes.size;
-  $("statusPlayers").textContent = `${state.players.length} ${plural(state.players.length, "jugador", "jugadores")}`;
-  $("statusImpostors").textContent = `${impostorCount} ${plural(impostorCount, "impostor", "impostores")}`;
-  $("statusCategory").textContent = state.category;
-  $("roundLabel").textContent = `Ronda ${state.round} de ${state.totalRounds}`;
-}
-
-function renderReveal() {
-  const playerName = state.players[state.revealIndex];
-  const isImpostor = state.impostorIndexes.has(state.revealIndex);
-  const isLastPlayer = state.revealIndex === state.players.length - 1;
-
-  $("revealProgress").textContent = `Jugador ${state.revealIndex + 1} de ${state.players.length}`;
-  $("closedPlayerName").textContent = playerName;
-  $("closedState").classList.toggle("hidden", state.roleVisible);
-  $("roleState").classList.toggle("hidden", !state.roleVisible);
-  $("nextRevealButton").disabled = !state.roleVisible;
-  $("hideScreenButton").disabled = !state.roleVisible;
-  $("nextRevealLabel").textContent = isLastPlayer ? "Empezar discusión" : "Pasar al siguiente";
-
-  if (!state.roleVisible) return;
-
-  $("roleSymbol").className = `role-symbol ${isImpostor ? "impostor-symbol" : "citizen-symbol"}`;
-  $("roleTitle").className = isImpostor ? "impostor-title" : "";
-  $("secretField").classList.toggle("citizen-secret", !isImpostor);
-
-  if (isImpostor) {
-    $("roleTitle").textContent = "Eres el impostor";
-    $("roleDescription").textContent = "No conoces la palabra exacta. Usa la pista y disimula.";
-    $("secretLabel").textContent = "Pista relacionada";
-    $("secretValue").textContent = state.clue;
-    $("secretStamp").textContent = "Confidencial";
-  } else {
-    $("roleTitle").textContent = "Ciudadano";
-    $("roleDescription").textContent = "Conoces la palabra secreta. Da pistas sin decirla literalmente.";
-    $("secretLabel").textContent = "Palabra secreta";
-    $("secretValue").textContent = state.word;
-    $("secretStamp").textContent = "Reservado";
-  }
-}
-
-function showRole() {
-  state.roleVisible = true;
-  renderReveal();
-}
-
-function hideRole() {
-  state.roleVisible = false;
-  renderReveal();
-}
-
-function nextReveal() {
-  state.roleVisible = false;
-
-  if (state.revealIndex < state.players.length - 1) {
-    state.revealIndex += 1;
-    renderReveal();
-    return;
-  }
-
-  renderRound();
-  showScreen("screenRound");
-  startTimer();
-}
-
-function renderRound() {
-  const formatted = state.timerSeconds === 0 ? "∞" : formatTime(state.timerRemaining);
-  $("timerDisplay").textContent = formatted;
-  $("voteTimerDisplay").textContent = formatted;
-  $("timerBlock").classList.toggle("no-timer", state.timerSeconds === 0);
-  $("pauseTimerButton").disabled = state.timerSeconds === 0;
-  $("restartTimerButton").disabled = state.timerSeconds === 0;
-  $("pauseTimerButton").textContent = state.timerPaused ? "Continuar" : "Pausar";
+function currentRoleFor(playerId) {
+  return state.assignment?.roles?.find((role) => role.playerId === playerId);
 }
 
 function startTimer() {
   stopTimer();
-  if (state.timerSeconds === 0) return;
-
-  state.timerPaused = false;
-  state.timerId = window.setInterval(() => {
-    if (state.timerPaused) return;
-
-    state.timerRemaining = Math.max(0, state.timerRemaining - 1);
-    renderRound();
-
-    if (state.timerRemaining === 0) {
-      stopTimer();
-      $("pauseTimerButton").textContent = "Tiempo agotado";
+  state.timerRunning = true;
+  timerId = window.setInterval(() => {
+    state.timerLeft = Math.max(0, state.timerLeft - 1);
+    if (state.timerLeft <= 0) {
+      stopTimer(false);
     }
+    render();
   }, 1000);
+  render();
 }
 
-function stopTimer() {
-  if (state.timerId) {
-    window.clearInterval(state.timerId);
-    state.timerId = null;
-  }
+function stopTimer(shouldRender = true) {
+  if (timerId) window.clearInterval(timerId);
+  timerId = null;
+  state.timerRunning = false;
+  if (shouldRender) render();
 }
 
-function pauseTimer() {
-  if (state.timerSeconds === 0 || state.timerRemaining === 0) return;
-  state.timerPaused = !state.timerPaused;
-  renderRound();
+function setError(message) {
+  state.error = message;
+  render();
 }
 
-function restartTimer() {
-  state.timerRemaining = state.timerSeconds;
-  state.timerPaused = false;
-  renderRound();
-  startTimer();
+function clearError() {
+  state.error = "";
 }
 
-function renderVote() {
-  const list = $("voteList");
-  list.innerHTML = "";
-  $("showResultButton").disabled = state.selectedVoteIndex === null;
-  renderRound();
-  renderStatus();
-
-  state.players.forEach((player, index) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "vote-option";
-    button.setAttribute("aria-pressed", String(state.selectedVoteIndex === index));
-    button.innerHTML = `
-      <span class="avatar" aria-hidden="true">${safeText(player.charAt(0).toUpperCase())}</span>
-      <strong>${safeText(player)}</strong>
-      <span class="radio" aria-hidden="true"></span>
-    `;
-    button.addEventListener("click", () => {
-      state.selectedVoteIndex = index;
-      renderVote();
-    });
-    list.appendChild(button);
-  });
+function appHeader() {
+  const roundText = state.assignment ? `Ronda <strong>${state.currentRound}</strong> de ${state.roundLimit}` : `Modo <strong>local</strong>`;
+  return `
+    <header class="app-header">
+      <div class="brand" aria-label="El Impostor">
+        <div class="brand-mark">EI</div>
+        <div>
+          <h1>El Impostor</h1>
+          <p>Hablad, insinuad y descubrid quién no encaja</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="header-chip">${roundText}</div>
+        <button class="ghost-button" data-action="go-setup" type="button">Nueva partida</button>
+      </div>
+    </header>
+  `;
 }
 
-function renderResult() {
-  const grid = $("resultGrid");
-  const selectedName = state.players[state.selectedVoteIndex];
-  const impostorNames = [...state.impostorIndexes].map((index) => state.players[index]);
-  const caught = state.impostorIndexes.has(state.selectedVoteIndex);
+function render() {
+  saveState();
+  app.innerHTML = `${appHeader()}<section class="stage">${renderScreen()}</section>`;
+  bindInputs();
+}
 
-  $("resultTitle").textContent = caught ? "Impostor descubierto" : "El impostor ha sobrevivido";
+function renderScreen() {
+  if (state.screen === "reveal") return renderRevealScreen();
+  if (state.screen === "discussion") return renderDiscussionScreen();
+  if (state.screen === "vote") return renderVoteScreen();
+  if (state.screen === "result") return renderResultScreen();
+  return renderSetupScreen();
+}
 
-  grid.innerHTML = `
-    <div class="result-card ${caught ? "" : "red"}">
-      <span>Veredicto</span>
-      <strong>${caught ? "Gana el grupo" : "Ganan los impostores"}</strong>
-    </div>
-    <div class="result-card">
-      <span>Votado</span>
-      <strong>${safeText(selectedName)}</strong>
-    </div>
-    <div class="result-card red">
-      <span>${impostorNames.length === 1 ? "Impostor" : "Impostores"}</span>
-      <strong>${safeText(impostorNames.join(", "))}</strong>
-    </div>
-    <div class="result-card wide">
-      <span>Palabra secreta</span>
-      <strong>${safeText(state.word)}</strong>
-    </div>
-    <div class="result-card wide red">
-      <span>Pista que recibieron los impostores</span>
-      <strong>${safeText(state.clue)}</strong>
+function renderSetupScreen() {
+  const maxImpostors = Math.max(1, Math.min(3, state.players.length - 1));
+  state.impostorCount = clamp(state.impostorCount, 1, maxImpostors);
+  const deckCount = getDeck().length;
+
+  return `
+    <div class="stage-inner setup-layout">
+      <section class="paper-card setup-panel" aria-label="Jugadores">
+        <div class="panel-head">
+          <div>
+            <p class="section-title">Preparar la mesa</p>
+            <h2>Jugadores</h2>
+            <p>Añádelos en orden. Puedes arrastrar para cambiar los turnos de revelación.</p>
+          </div>
+          <div class="count-pill">${state.players.length} jugadores</div>
+        </div>
+
+        <form class="add-player" data-form="add-player">
+          <input class="input" id="playerName" name="playerName" autocomplete="off" maxlength="24" placeholder="Nombre del jugador" value="${escapeHtml(state.playerInput || "")}" />
+          <button class="add-button" type="submit">Añadir</button>
+        </form>
+
+        <div class="player-list-wrap">
+          <div class="player-list" id="playerList" aria-label="Lista de jugadores">
+            ${state.players.map((player, index) => renderPlayerRow(player, index)).join("")}
+          </div>
+        </div>
+
+        <div class="setup-footer">
+          <div class="error-box">${escapeHtml(state.error)}</div>
+          <button class="primary-button start-button" data-action="start-game" type="button">Empezar ronda</button>
+        </div>
+      </section>
+
+      <aside class="config-panel card" aria-label="Configuración de partida">
+        <div class="rules-card card">
+          <h3>Regla clave</h3>
+          <p>Nadie ve la palabra durante la configuración. Al empezar, cada jugador mira su pantalla privada: los ciudadanos reciben la palabra; los impostores reciben solo una pista relacionada.</p>
+          <div class="role-compare">
+            <div class="role-mini"><span>Ciudadanos</span><strong>Palabra secreta</strong></div>
+            <div class="role-mini"><span>Impostores</span><strong>Pista relacionada</strong></div>
+          </div>
+        </div>
+
+        <div class="form-scroll">
+          <div class="form-row">
+            <label class="form-label">
+              <strong>Impostores</strong>
+              <small>Número oculto de impostores.</small>
+            </label>
+            <div class="stepper">
+              <button data-action="dec-impostors" type="button">−</button>
+              <output>${state.impostorCount}</output>
+              <button data-action="inc-impostors" type="button">+</button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">
+              <strong>Modo</strong>
+              <small>Usa mazos incluidos o escribe el tuyo.</small>
+            </label>
+            <div class="segmented">
+              <button class="${state.mode === "included" ? "active" : ""}" data-action="mode-included" type="button">Incluido</button>
+              <button class="${state.mode === "custom" ? "active" : ""}" data-action="mode-custom" type="button">Personalizado</button>
+            </div>
+          </div>
+
+          ${state.mode === "included" ? renderIncludedDeckControls() : renderCustomDeckControls(deckCount)}
+
+          <div class="form-row">
+            <label class="form-label">
+              <strong>Temporizador</strong>
+              <small>Tiempo de discusión.</small>
+            </label>
+            <select class="select" id="timerSelect">
+              ${[60, 90, 120, 180, 300].map((seconds) => `<option value="${seconds}" ${state.timerSeconds === seconds ? "selected" : ""}>${seconds < 60 ? seconds : `${seconds / 60} min`}</option>`).join("")}
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">
+              <strong>Rondas</strong>
+              <small>Partidas seguidas con los mismos jugadores.</small>
+            </label>
+            <div class="stepper">
+              <button data-action="dec-rounds" type="button">−</button>
+              <output>${state.roundLimit}</output>
+              <button data-action="inc-rounds" type="button">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="round-strip" aria-label="Resumen">
+          <div class="strip-item"><span>Turnos</span><strong>Orden manual</strong></div>
+          <div class="strip-item"><span>Mazo</span><strong>${deckCount} pares</strong></div>
+          <div class="strip-item"><span>Privado</span><strong>Sin revelar antes</strong></div>
+          <div class="strip-item"><span>Anuncios</span><strong>Cero</strong></div>
+        </div>
+      </aside>
     </div>
   `;
 }
 
-function goToSetup() {
-  stopTimer();
-  showScreen("screenSetup");
+function renderIncludedDeckControls() {
+  const options = Object.keys(DECKS).map((key) => {
+    const label = {
+      animales: "Animales",
+      comida: "Comida",
+      lugares: "Lugares",
+      objetos: "Objetos",
+      cultura: "Cultura general"
+    }[key] || key;
+    return `<option value="${key}" ${state.category === key ? "selected" : ""}>${label}</option>`;
+  }).join("");
+
+  return `
+    <div class="form-row">
+      <label class="form-label">
+        <strong>Categoría</strong>
+        <small>La palabra y la pista se escogen al empezar.</small>
+      </label>
+      <select class="select" id="categorySelect">${options}</select>
+    </div>
+  `;
 }
 
-function loadExample() {
-  $("playersInput").value = "Clara\nMateo\nLucía\nPablo\nSara\nDiego";
-  $("impostorCountInput").value = "1";
-  $("categorySelect").value = "Animales";
-  $("timerInput").value = "90";
-  $("roundsInput").value = "5";
-  setMode("builtin");
-  updatePlayersCount();
-  updateFeatureStrip();
+function renderCustomDeckControls(deckCount) {
+  return `
+    <div class="custom-editor">
+      <label class="form-label" for="customRaw">
+        <strong>Mazo personalizado</strong>
+        <small>Un par por línea. Formato: Palabra - Pista. No se mostrará ninguna antes de empezar.</small>
+      </label>
+      <textarea class="textarea" id="customRaw" spellcheck="false">${escapeHtml(state.customRaw)}</textarea>
+      <small>${deckCount} pares válidos detectados.</small>
+    </div>
+  `;
 }
 
-function shufflePreview() {
-  const preview = randomItem(decks.Animales);
-  document.querySelector(".example-word").textContent = preview.word;
-  document.querySelector(".example-clue").innerHTML = `${safeText(preview.clue)} <span>Ejemplo</span>`;
+function renderPlayerRow(player, index) {
+  return `
+    <div class="player-row" data-player-id="${player.id}" draggable="true">
+      <div class="drag-handle" data-drag-handle="${player.id}" title="Arrastrar">${index + 1}</div>
+      <div class="player-name">${escapeHtml(player.name)}</div>
+      <div class="row-actions">
+        <button class="tiny-button" data-action="move-player-up" data-id="${player.id}" type="button" aria-label="Subir jugador">↑</button>
+        <button class="tiny-button" data-action="move-player-down" data-id="${player.id}" type="button" aria-label="Bajar jugador">↓</button>
+        <button class="tiny-button" data-action="remove-player" data-id="${player.id}" type="button" aria-label="Eliminar jugador">×</button>
+      </div>
+    </div>
+  `;
 }
 
-function bindEvents() {
-  $("brandButton").addEventListener("click", goToSetup);
-  $("rulesButton").addEventListener("click", () => showScreen("screenRules"));
-  $("backToSetupButton").addEventListener("click", () => showScreen("screenSetup"));
-  $("resetButton").addEventListener("click", () => {
-    stopTimer();
-    state.round = 1;
-    showScreen("screenSetup");
-  });
+function renderRevealScreen() {
+  const player = currentPlayer();
+  const role = currentRoleFor(player.id);
+  const playerNumber = state.currentRevealIndex + 1;
+  const total = state.players.length;
+  const isLast = playerNumber === total;
 
-  $("playersInput").addEventListener("input", updatePlayersCount);
-  $("timerInput").addEventListener("change", updateFeatureStrip);
-  $("roundsInput").addEventListener("change", updateFeatureStrip);
-  $("builtInModeButton").addEventListener("click", () => setMode("builtin"));
-  $("customModeButton").addEventListener("click", () => setMode("custom"));
-  $("impostorMinusButton").addEventListener("click", () => changeImpostorCount(-1));
-  $("impostorPlusButton").addEventListener("click", () => changeImpostorCount(1));
-  $("loadExampleButton").addEventListener("click", loadExample);
-  $("shuffleExampleButton").addEventListener("click", shufflePreview);
+  return `
+    <div class="stage-inner reveal-layout">
+      <div class="status-row">
+        <div class="status-card">Jugador <strong>${playerNumber}</strong> de ${total}</div>
+        <div class="status-card">Ronda <strong>${state.currentRound}</strong> de ${state.roundLimit}</div>
+        <div class="status-card"><strong>${state.impostorCount}</strong> impostor${state.impostorCount > 1 ? "es" : ""}</div>
+      </div>
 
-  $("setupForm").addEventListener("submit", (event) => {
-    event.preventDefault();
-    createGame();
-  });
+      <div class="reveal-center">
+        ${state.revealOpen ? renderOpenReveal(player, role) : renderClosedReveal(player)}
+      </div>
 
-  $("showRoleButton").addEventListener("click", showRole);
-  $("hideScreenButton").addEventListener("click", hideRole);
-  $("nextRevealButton").addEventListener("click", nextReveal);
-
-  $("pauseTimerButton").addEventListener("click", pauseTimer);
-  $("restartTimerButton").addEventListener("click", restartTimer);
-  $("reviewRolesButton").addEventListener("click", () => {
-    stopTimer();
-    state.revealIndex = 0;
-    state.roleVisible = false;
-    renderReveal();
-    showScreen("screenReveal");
-  });
-  $("goVoteButton").addEventListener("click", () => {
-    stopTimer();
-    renderVote();
-    showScreen("screenVote");
-  });
-  $("backToRoundButton").addEventListener("click", () => {
-    renderRound();
-    showScreen("screenRound");
-    startTimer();
-  });
-  $("showResultButton").addEventListener("click", () => {
-    renderResult();
-    showScreen("screenResult");
-  });
-  $("samePlayersButton").addEventListener("click", () => createGame({ keepPlayers: true, keepRound: true }));
-  $("newGameButton").addEventListener("click", () => {
-    state.round = 1;
-    goToSetup();
-  });
+      <div class="status-row">
+        <div class="status-card">Pasa el móvil en el orden de la lista. Cada persona ve solo su panel.</div>
+      </div>
+    </div>
+  `;
 }
 
-function init() {
-  populateCategories();
-  bindEvents();
-  const storedPlayers = loadPlayers();
+function renderClosedReveal(player) {
+  return `
+    <section class="paper-card reveal-card compact-closed" aria-label="Pantalla privada cerrada">
+      <div class="private-head">
+        <div>
+          <p class="section-title">Pantalla privada</p>
+          <small>Solo debe mirar esta persona.</small>
+        </div>
+        <small>${escapeHtml(player.name)}</small>
+      </div>
+      <div class="private-body">
+        <div class="player-focus">
+          <div class="initials">${escapeHtml(initials(player.name))}</div>
+          <h2>${escapeHtml(player.name)}</h2>
+          <p>Cuando estés preparado, pulsa para ver tu papel. No enseñes la pantalla.</p>
+        </div>
+      </div>
+      <div class="reveal-actions single">
+        <button class="primary-button" data-action="open-reveal" type="button">Ver mi papel</button>
+      </div>
+    </section>
+  `;
+}
 
-  if (storedPlayers) {
-    $("playersInput").value = storedPlayers;
-  } else {
-    loadExample();
+function renderOpenReveal(player, role) {
+  const isImpostor = role.type === "impostor";
+  const title = isImpostor ? "Eres el impostor" : "Eres ciudadano";
+  const text = isImpostor
+    ? "No conoces la palabra exacta. Usa la pista, escucha y disimula."
+    : "Conoces la palabra secreta. Da pistas sin decirla directamente.";
+  const label = isImpostor ? "Pista relacionada" : "Palabra secreta";
+  const value = isImpostor ? state.assignment.clue : state.assignment.word;
+  const boxClass = isImpostor ? "secret-box impostor" : "secret-box";
+  const nextLabel = state.currentRevealIndex + 1 === state.players.length ? "Empezar discusión" : "Ocultar y pasar";
+
+  return `
+    <section class="paper-card reveal-card" aria-label="Revelación privada">
+      <div class="private-head">
+        <div>
+          <p class="section-title">Revelación privada</p>
+          <small>No digas lo que ves aquí.</small>
+        </div>
+        <small>${escapeHtml(player.name)}</small>
+      </div>
+      <div class="private-body">
+        <div class="player-focus">
+          <div class="initials">${isImpostor ? "I" : "C"}</div>
+          <h2>${title}</h2>
+          <p>${text}</p>
+          <div class="${boxClass}">
+            <span>${label}</span>
+            <strong>${escapeHtml(value)}</strong>
+          </div>
+          <div class="disclaimer-line">Los demás no ven esta pantalla.</div>
+        </div>
+      </div>
+      <div class="reveal-actions">
+        <button class="secondary-button" data-action="hide-reveal" type="button">Ocultar</button>
+        <button class="primary-button" data-action="next-reveal" type="button">${nextLabel}</button>
+      </div>
+    </section>
+  `;
+}
+
+function renderDiscussionScreen() {
+  return `
+    <div class="stage-inner round-layout">
+      <section class="paper-card round-panel" aria-label="Discusión">
+        <div class="panel-head">
+          <div>
+            <p class="section-title">Fase de discusión</p>
+            <h2>Hablad sin revelar</h2>
+          </div>
+          <div class="count-pill">${state.players.length} jugadores</div>
+        </div>
+        <div class="centered-block">
+          <div class="timer-block">
+            <div class="timer-value">${formatTime(state.timerLeft)}</div>
+            <div class="timer-label">Lanzad pistas, preguntad y observad. Nadie debe decir la palabra exacta ni leer su pista literalmente.</div>
+          </div>
+        </div>
+        <div class="action-grid">
+          <button class="secondary-button" data-action="toggle-timer" type="button">${state.timerRunning ? "Pausar" : "Iniciar"}</button>
+          <button class="secondary-button" data-action="reset-timer" type="button">Reiniciar</button>
+        </div>
+      </section>
+
+      <section class="card round-panel" aria-label="Acciones de ronda">
+        <div class="panel-head">
+          <div>
+            <p class="section-title">Cuando estéis listos</p>
+            <h2>Votación final</h2>
+            <p class="dark-muted">La partida no revela nada hasta confirmar el resultado. Si hay más de un impostor, seleccionad tantos nombres como impostores.</p>
+          </div>
+        </div>
+        <div class="centered-block">
+          <div class="result-list">
+            <div class="result-pill">
+              <small>Objetivo</small>
+              <strong>Elegir al impostor</strong>
+            </div>
+            <div class="result-pill">
+              <small>Ronda</small>
+              <strong>${state.currentRound} de ${state.roundLimit}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="action-grid">
+          <button class="secondary-button" data-action="back-to-reveal" type="button">Revisar turnos</button>
+          <button class="primary-button" data-action="go-vote" type="button">Ir a votar</button>
+        </div>
+      </section>
+    </div>
+  `;
+}
+
+function renderVoteScreen() {
+  const selectedCount = state.selectedVotes.length;
+  const needed = state.impostorCount;
+  return `
+    <div class="stage-inner round-layout">
+      <section class="paper-card round-panel" aria-label="Votación">
+        <div class="panel-head">
+          <div>
+            <p class="section-title">Votación</p>
+            <h2>¿Quién no encaja?</h2>
+            <p>Seleccionad ${needed === 1 ? "un nombre" : `${needed} nombres`}.</p>
+          </div>
+          <div class="count-pill">${selectedCount}/${needed}</div>
+        </div>
+        <div class="vote-list">
+          ${state.players.map((player) => renderVoteRow(player)).join("")}
+        </div>
+        <div class="action-grid">
+          <button class="secondary-button" data-action="go-discussion" type="button">Volver</button>
+          <button class="primary-button" data-action="show-result" type="button" ${selectedCount !== needed ? "disabled" : ""}>Confirmar</button>
+        </div>
+      </section>
+
+      <section class="card round-panel" aria-label="Instrucciones de votación">
+        <div class="panel-head">
+          <div>
+            <p class="section-title">Sin trampas</p>
+            <h2>Resultado oculto</h2>
+            <p class="dark-muted">La palabra y la pista solo se revelan después de confirmar. Hasta entonces, nadie tiene ventaja desde la configuración.</p>
+          </div>
+        </div>
+        <div class="centered-block">
+          <div class="result-list">
+            <div class="result-pill">
+              <small>Ciudadanos tenían</small>
+              <strong>Palabra secreta</strong>
+            </div>
+            <div class="result-pill">
+              <small>Impostores tenían</small>
+              <strong>Pista relacionada</strong>
+            </div>
+          </div>
+        </div>
+        <div class="action-grid">
+          <button class="danger-button" data-action="cancel-round" type="button">Cancelar ronda</button>
+        </div>
+      </section>
+    </div>
+  `;
+}
+
+function renderVoteRow(player) {
+  const selected = state.selectedVotes.includes(player.id);
+  return `
+    <button class="vote-row ${selected ? "selected" : ""}" data-action="toggle-vote" data-id="${player.id}" type="button">
+      <div class="iconless-badge">${escapeHtml(initials(player.name))}</div>
+      <div class="vote-name">${escapeHtml(player.name)}</div>
+      <div class="radio" aria-hidden="true"></div>
+    </button>
+  `;
+}
+
+function renderResultScreen() {
+  const impostors = state.assignment.roles
+    .filter((role) => role.type === "impostor")
+    .map((role) => state.players.find((player) => player.id === role.playerId)?.name)
+    .filter(Boolean);
+  const correctIds = state.assignment.roles.filter((role) => role.type === "impostor").map((role) => role.playerId).sort();
+  const voteIds = [...state.selectedVotes].sort();
+  const success = JSON.stringify(correctIds) === JSON.stringify(voteIds);
+  const canContinue = state.currentRound < state.roundLimit;
+
+  return `
+    <div class="stage-inner round-layout">
+      <section class="paper-card round-panel" aria-label="Resultado">
+        <div class="panel-head">
+          <div>
+            <p class="section-title">Resultado</p>
+            <h2>${success ? "Habéis acertado" : "El impostor escapó"}</h2>
+            <p>${success ? "La mesa detectó quién no tenía la palabra." : "La votación no coincidió con el papel real."}</p>
+          </div>
+        </div>
+        <div class="centered-block">
+          <div class="result-list">
+            <div class="result-pill"><small>Impostor${impostors.length > 1 ? "es" : ""}</small><strong>${escapeHtml(impostors.join(", "))}</strong></div>
+            <div class="result-pill"><small>Palabra secreta</small><strong>${escapeHtml(state.assignment.word)}</strong></div>
+            <div class="result-pill"><small>Pista impostor</small><strong>${escapeHtml(state.assignment.clue)}</strong></div>
+          </div>
+        </div>
+        <div class="action-grid">
+          <button class="secondary-button" data-action="go-setup" type="button">Nueva partida</button>
+          <button class="primary-button" data-action="next-round" type="button" ${canContinue ? "" : "disabled"}>${canContinue ? "Siguiente ronda" : "Fin"}</button>
+        </div>
+      </section>
+
+      <section class="card round-panel" aria-label="Resumen de votos">
+        <div class="panel-head">
+          <div>
+            <p class="section-title">Vuestra elección</p>
+            <h2>${renderSelectedNames()}</h2>
+            <p class="dark-muted">Ronda ${state.currentRound} de ${state.roundLimit}. Podéis seguir con los mismos jugadores o volver a configuración.</p>
+          </div>
+        </div>
+        <div class="centered-block">
+          <div class="result-list">
+            <div class="result-pill"><small>Regla</small><strong>La palabra nunca aparece antes de empezar</strong></div>
+            <div class="result-pill"><small>Siguiente</small><strong>${canContinue ? "Nueva palabra y nueva pista" : "Partida terminada"}</strong></div>
+          </div>
+        </div>
+        <div class="action-grid">
+          <button class="secondary-button" data-action="repeat-round" type="button">Repetir ronda</button>
+        </div>
+      </section>
+    </div>
+  `;
+}
+
+function renderSelectedNames() {
+  const names = state.selectedVotes
+    .map((id) => state.players.find((player) => player.id === id)?.name)
+    .filter(Boolean);
+  return escapeHtml(names.length ? names.join(", ") : "Sin voto");
+}
+
+function bindInputs() {
+  const input = document.querySelector("#playerName");
+  if (input) {
+    input.addEventListener("input", (event) => {
+      state.playerInput = event.target.value;
+      saveState();
+    });
   }
 
-  updatePlayersCount();
-  updateFeatureStrip();
-  setMode("builtin");
-  showScreen("screenSetup");
+  const category = document.querySelector("#categorySelect");
+  if (category) {
+    category.addEventListener("change", (event) => {
+      state.category = event.target.value;
+      clearError();
+      render();
+    });
+  }
+
+  const timer = document.querySelector("#timerSelect");
+  if (timer) {
+    timer.addEventListener("change", (event) => {
+      state.timerSeconds = Number(event.target.value);
+      state.timerLeft = state.timerSeconds;
+      render();
+    });
+  }
+
+  const customRaw = document.querySelector("#customRaw");
+  if (customRaw) {
+    customRaw.addEventListener("input", (event) => {
+      state.customRaw = event.target.value;
+      saveState();
+    });
+    customRaw.addEventListener("blur", render);
+  }
+
+  const form = document.querySelector('[data-form="add-player"]');
+  if (form) {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      addPlayer();
+    });
+  }
+
+  bindDrag();
 }
 
-init();
+app.addEventListener("click", (event) => {
+  const target = event.target.closest("[data-action]");
+  if (!target) return;
+  const action = target.dataset.action;
+  const id = target.dataset.id;
+
+  const actions = {
+    "go-setup": goSetup,
+    "start-game": startGame,
+    "dec-impostors": () => updateImpostors(-1),
+    "inc-impostors": () => updateImpostors(1),
+    "dec-rounds": () => updateRounds(-1),
+    "inc-rounds": () => updateRounds(1),
+    "mode-included": () => setMode("included"),
+    "mode-custom": () => setMode("custom"),
+    "remove-player": () => removePlayer(id),
+    "move-player-up": () => movePlayer(id, -1),
+    "move-player-down": () => movePlayer(id, 1),
+    "open-reveal": () => { state.revealOpen = true; render(); },
+    "hide-reveal": () => { state.revealOpen = false; render(); },
+    "next-reveal": nextReveal,
+    "toggle-timer": toggleTimer,
+    "reset-timer": resetTimer,
+    "go-vote": goVote,
+    "go-discussion": goDiscussion,
+    "back-to-reveal": backToReveal,
+    "toggle-vote": () => toggleVote(id),
+    "show-result": showResult,
+    "cancel-round": cancelRound,
+    "next-round": nextRound,
+    "repeat-round": repeatRound
+  };
+
+  actions[action]?.();
+});
+
+function addPlayer() {
+  const value = (state.playerInput || "").trim();
+  if (!value) return setError("Escribe un nombre antes de añadir.");
+  if (state.players.some((player) => player.name.toLowerCase() === value.toLowerCase())) {
+    return setError("Ese nombre ya está en la lista.");
+  }
+  if (state.players.length >= 16) return setError("Máximo 16 jugadores para que la ronda siga siendo manejable.");
+  state.players.push(createPlayer(value));
+  state.playerInput = "";
+  clearError();
+  render();
+  setTimeout(() => document.querySelector("#playerName")?.focus(), 0);
+}
+
+function removePlayer(id) {
+  if (state.players.length <= 3) return setError("Necesitas al menos 3 jugadores.");
+  state.players = state.players.filter((player) => player.id !== id);
+  state.impostorCount = clamp(state.impostorCount, 1, Math.max(1, Math.min(3, state.players.length - 1)));
+  clearError();
+  render();
+}
+
+function movePlayer(id, direction) {
+  const from = state.players.findIndex((player) => player.id === id);
+  if (from < 0) return;
+  const to = clamp(from + direction, 0, state.players.length - 1);
+  if (from === to) return;
+  const [player] = state.players.splice(from, 1);
+  state.players.splice(to, 0, player);
+  render();
+}
+
+function updateImpostors(delta) {
+  const max = Math.max(1, Math.min(3, state.players.length - 1));
+  state.impostorCount = clamp(state.impostorCount + delta, 1, max);
+  clearError();
+  render();
+}
+
+function updateRounds(delta) {
+  state.roundLimit = clamp(state.roundLimit + delta, 1, 20);
+  render();
+}
+
+function setMode(mode) {
+  state.mode = mode;
+  clearError();
+  render();
+}
+
+function startGame() {
+  stopTimer(false);
+  if (state.players.length < 3) return setError("Necesitas al menos 3 jugadores.");
+  if (state.impostorCount >= state.players.length) return setError("Debe haber más ciudadanos que impostores.");
+
+  const deck = getDeck();
+  if (deck.length < 1) return setError("El mazo personalizado necesita al menos una línea válida: Palabra - Pista.");
+
+  const pair = pickRandom(deck);
+  const impostorIds = shuffle(state.players).slice(0, state.impostorCount).map((player) => player.id);
+  state.assignment = {
+    word: pair.word,
+    clue: pair.clue,
+    roles: state.players.map((player) => ({
+      playerId: player.id,
+      type: impostorIds.includes(player.id) ? "impostor" : "citizen"
+    }))
+  };
+  state.currentRevealIndex = 0;
+  state.revealOpen = false;
+  state.timerLeft = state.timerSeconds;
+  state.selectedVotes = [];
+  state.screen = "reveal";
+  clearError();
+  render();
+}
+
+function nextReveal() {
+  if (state.currentRevealIndex < state.players.length - 1) {
+    state.currentRevealIndex += 1;
+    state.revealOpen = false;
+    render();
+    return;
+  }
+  state.revealOpen = false;
+  state.screen = "discussion";
+  state.timerLeft = state.timerSeconds;
+  render();
+}
+
+function backToReveal() {
+  stopTimer(false);
+  state.currentRevealIndex = 0;
+  state.revealOpen = false;
+  state.screen = "reveal";
+  render();
+}
+
+function toggleTimer() {
+  if (state.timerRunning) stopTimer();
+  else startTimer();
+}
+
+function resetTimer() {
+  stopTimer(false);
+  state.timerLeft = state.timerSeconds;
+  render();
+}
+
+function goVote() {
+  stopTimer(false);
+  state.selectedVotes = [];
+  state.screen = "vote";
+  render();
+}
+
+function goDiscussion() {
+  state.screen = "discussion";
+  render();
+}
+
+function toggleVote(id) {
+  const exists = state.selectedVotes.includes(id);
+  if (exists) {
+    state.selectedVotes = state.selectedVotes.filter((voteId) => voteId !== id);
+  } else if (state.selectedVotes.length < state.impostorCount) {
+    state.selectedVotes.push(id);
+  } else {
+    state.selectedVotes = [...state.selectedVotes.slice(1), id];
+  }
+  render();
+}
+
+function showResult() {
+  if (state.selectedVotes.length !== state.impostorCount) return;
+  state.screen = "result";
+  render();
+}
+
+function nextRound() {
+  if (state.currentRound >= state.roundLimit) return;
+  state.currentRound += 1;
+  startGame();
+}
+
+function repeatRound() {
+  startGame();
+}
+
+function cancelRound() {
+  stopTimer(false);
+  state.assignment = null;
+  state.screen = "setup";
+  state.selectedVotes = [];
+  render();
+}
+
+function goSetup() {
+  stopTimer(false);
+  state.screen = "setup";
+  state.assignment = null;
+  state.selectedVotes = [];
+  state.revealOpen = false;
+  state.currentRound = 1;
+  render();
+}
+
+function bindDrag() {
+  document.querySelectorAll(".player-row").forEach((row) => {
+    row.addEventListener("dragstart", (event) => {
+      event.dataTransfer.setData("text/plain", row.dataset.playerId);
+      event.dataTransfer.effectAllowed = "move";
+      row.classList.add("dragging");
+    });
+
+    row.addEventListener("dragend", () => {
+      row.classList.remove("dragging");
+    });
+
+    row.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = "move";
+    });
+
+    row.addEventListener("drop", (event) => {
+      event.preventDefault();
+      const draggedId = event.dataTransfer.getData("text/plain");
+      const targetId = row.dataset.playerId;
+      reorderPlayers(draggedId, targetId);
+    });
+  });
+
+  document.querySelectorAll("[data-drag-handle]").forEach((handle) => {
+    handle.addEventListener("pointerdown", onPointerDragStart);
+  });
+}
+
+function onPointerDragStart(event) {
+  if (event.pointerType === "mouse" && event.button !== 0) return;
+  const handle = event.currentTarget;
+  const id = handle.dataset.dragHandle;
+  const row = handle.closest(".player-row");
+  dragState = { id, lastTarget: id };
+  row?.classList.add("dragging");
+  handle.setPointerCapture?.(event.pointerId);
+  window.addEventListener("pointermove", onPointerDragMove);
+  window.addEventListener("pointerup", onPointerDragEnd, { once: true });
+}
+
+function onPointerDragMove(event) {
+  if (!dragState) return;
+  const element = document.elementFromPoint(event.clientX, event.clientY);
+  const targetRow = element?.closest?.(".player-row");
+  if (!targetRow) return;
+  const targetId = targetRow.dataset.playerId;
+  if (!targetId || targetId === dragState.id || targetId === dragState.lastTarget) return;
+  dragState.lastTarget = targetId;
+  reorderPlayers(dragState.id, targetId, false);
+}
+
+function onPointerDragEnd() {
+  dragState = null;
+  window.removeEventListener("pointermove", onPointerDragMove);
+  render();
+}
+
+function reorderPlayers(draggedId, targetId, shouldRender = true) {
+  if (!draggedId || !targetId || draggedId === targetId) return;
+  const from = state.players.findIndex((player) => player.id === draggedId);
+  const to = state.players.findIndex((player) => player.id === targetId);
+  if (from < 0 || to < 0 || from === to) return;
+  const [player] = state.players.splice(from, 1);
+  state.players.splice(to, 0, player);
+  if (shouldRender) render();
+  else {
+    const list = document.querySelector("#playerList");
+    if (!list) return;
+    list.innerHTML = state.players.map((playerItem, index) => renderPlayerRow(playerItem, index)).join("");
+    bindDrag();
+  }
+}
+
+render();
