@@ -1,0 +1,17 @@
+{
+  "name": "El Impostor — Diario de Mesa",
+  "short_name": "El Impostor",
+  "description": "Juego local de El Impostor con estética de diario antiguo, sin anuncios.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#160e0a",
+  "theme_color": "#2a1b12",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
