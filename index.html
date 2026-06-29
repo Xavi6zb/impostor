@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#2a1b12" />
+    <meta name="description" content="Juego local de El Impostor con estética de diario antiguo, sin anuncios y listo para GitHub Pages." />
+    <title>El Impostor — Diario de Mesa</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Diario de mesa</p>
+          <h1>El Impostor</h1>
+        </div>
+        <button class="ghost-button small" id="resetGameButton" type="button">Reiniciar</button>
+      </header>
+
+      <section class="paper-card intro-card" id="screenStart" data-screen="start">
+        <div class="seal" aria-hidden="true">I</div>
+        <p class="eyebrow">Partida privada · Sin anuncios</p>
+        <h2>Un juego rápido para familia y amigos</h2>
+        <p class="lead">
+          Todos reciben la misma palabra secreta. El impostor no. Hablad con cuidado,
+          lanzad pistas y descubrid quién está improvisando.
+        </p>
+        <div class="button-row">
+          <button class="primary-button" id="startSetupButton" type="button">Crear partida</button>
+          <button class="secondary-button" id="howToPlayButton" type="button">Cómo se juega</button>
+        </div>
+      </section>
+
+      <section class="paper-card hidden" id="screenRules" data-screen="rules">
+        <p class="eyebrow">Reglas rápidas</p>
+        <h2>Cómo se juega</h2>
+        <ol class="rules-list">
+          <li>Escribe los nombres de quienes juegan.</li>
+          <li>El móvil pasa de mano en mano para revelar el papel de cada persona.</li>
+          <li>Quienes no son impostores ven la palabra secreta. El impostor solo ve su papel.</li>
+          <li>Haced una ronda de pistas o preguntas sin decir la palabra exacta.</li>
+          <li>Votad. Si el impostor es descubierto, pierde. Si sobrevive, gana.</li>
+        </ol>
+        <div class="button-row">
+          <button class="secondary-button" id="backFromRulesButton" type="button">Volver</button>
+          <button class="primary-button" id="rulesToSetupButton" type="button">Crear partida</button>
+        </div>
+      </section>
+
+      <section class="paper-card hidden" id="screenSetup" data-screen="setup">
+        <p class="eyebrow">Preparación</p>
+        <h2>Configura la partida</h2>
+
+        <form id="setupForm" class="setup-grid">
+          <div class="field-block full-width">
+            <label for="playersInput">Jugadores</label>
+            <textarea id="playersInput" rows="5" spellcheck="false" placeholder="Ana&#10;Marc&#10;Nuria&#10;Xavier"></textarea>
+            <p class="field-note">Un nombre por línea. Mínimo 3 jugadores.</p>
+          </div>
+
+          <div class="field-block">
+            <label for="categorySelect">Categoría</label>
+            <select id="categorySelect"></select>
+          </div>
+
+          <div class="field-block">
+            <label for="impostorCountInput">Impostores</label>
+            <input id="impostorCountInput" type="number" min="1" max="3" value="1" inputmode="numeric" />
+          </div>
+
+          <div class="field-block">
+            <label for="timerInput">Temporizador</label>
+            <select id="timerInput">
+              <option value="0">Sin temporizador</option>
+              <option value="120">2 minutos</option>
+              <option value="180">3 minutos</option>
+              <option value="300">5 minutos</option>
+              <option value="420">7 minutos</option>
+            </select>
+          </div>
+
+          <label class="toggle-card full-width">
+            <span>
+              <strong>Mostrar categoría al impostor</strong>
+              <small>Más fácil para partidas familiares.</small>
+            </span>
+            <input id="showCategoryToImpostorInput" type="checkbox" />
+          </label>
+
+          <div class="field-block full-width hidden" id="customWordsBlock">
+            <label for="customWordsInput">Palabras personalizadas</label>
+            <textarea id="customWordsInput" rows="5" spellcheck="false" placeholder="Museo&#10;Aeropuerto&#10;Chocolate&#10;Biblioteca"></textarea>
+            <p class="field-note">Escribe una palabra por línea. Se escogerá una al azar.</p>
+          </div>
+
+          <div class="warning-box hidden" id="setupError" role="alert"></div>
+
+          <div class="button-row full-width">
+            <button class="secondary-button" id="loadExampleButton" type="button">Ejemplo familiar</button>
+            <button class="primary-button" type="submit">Empezar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="paper-card hidden reveal-card" id="screenReveal" data-screen="reveal">
+        <p class="eyebrow" id="revealProgress">Turno 1 de 4</p>
+        <h2 id="revealPlayerName">Jugador</h2>
+
+        <div class="closed-note" id="closedNote">
+          <p>Pasa el móvil a esta persona.</p>
+          <button class="primary-button" id="showRoleButton" type="button">Ver mi papel</button>
+        </div>
+
+        <div class="secret-note hidden" id="secretNote">
+          <p class="eyebrow">Tu papel</p>
+          <h3 id="roleTitle">Palabra secreta</h3>
+          <p class="secret-word" id="secretWord">—</p>
+          <p class="roleHint" id="roleHint"></p>
+          <button class="primary-button" id="hideAndNextButton" type="button">Ocultar y pasar</button>
+        </div>
+      </section>
+
+      <section class="paper-card hidden" id="screenRound" data-screen="round">
+        <p class="eyebrow">Ronda en curso</p>
+        <h2>Hablad sin delataros</h2>
+        <p class="lead compact">
+          Haced preguntas, defended vuestras pistas y no digáis la palabra secreta.
+        </p>
+
+        <div class="timer-card hidden" id="timerCard">
+          <span id="timerDisplay">03:00</span>
+          <div class="button-row centered">
+            <button class="secondary-button small" id="pauseTimerButton" type="button">Pausar</button>
+            <button class="secondary-button small" id="resetTimerButton" type="button">Reiniciar tiempo</button>
+          </div>
+        </div>
+
+        <div class="round-tools">
+          <div class="tool-card">
+            <span class="tool-number">1</span>
+            <strong>Primera vuelta</strong>
+            <p>Cada persona da una pista breve.</p>
+          </div>
+          <div class="tool-card">
+            <span class="tool-number">2</span>
+            <strong>Preguntas</strong>
+            <p>Podéis preguntar a alguien concreto.</p>
+          </div>
+          <div class="tool-card">
+            <span class="tool-number">3</span>
+            <strong>Votación</strong>
+            <p>Señalad a quien parezca estar fingiendo.</p>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button class="secondary-button" id="reviewRolesButton" type="button">Revisar turnos</button>
+          <button class="primary-button" id="goVoteButton" type="button">Ir a votación</button>
+        </div>
+      </section>
+
+      <section class="paper-card hidden" id="screenVote" data-screen="vote">
+        <p class="eyebrow">Votación</p>
+        <h2>¿Quién es el impostor?</h2>
+        <div class="vote-list" id="voteList"></div>
+        <div class="button-row">
+          <button class="secondary-button" id="backToRoundButton" type="button">Volver a la ronda</button>
+          <button class="primary-button" id="showResultButton" type="button" disabled>Revelar resultado</button>
+        </div>
+      </section>
+
+      <section class="paper-card hidden" id="screenResult" data-screen="result">
+        <p class="eyebrow">Resultado</p>
+        <h2 id="resultTitle">Fin de la partida</h2>
+        <div class="result-box" id="resultBox"></div>
+        <div class="button-row">
+          <button class="secondary-button" id="samePlayersButton" type="button">Nueva palabra</button>
+          <button class="primary-button" id="newGameButton" type="button">Nueva partida</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="src/app.js"></script>
+  </body>
+</html>
