@@ -1,43 +1,94 @@
-const categories = {
-  "Familia": [
-    "Sofá", "Cumpleaños", "Tortilla", "Supermercado", "Piscina", "Chocolate", "Maleta", "Restaurante",
-    "Película", "Café", "Parque", "Colegio", "Bicicleta", "Ascensor", "Pizza", "Hospital", "Avión", "Playa",
-    "Gato", "Perro", "Helado", "Mercado", "Biblioteca", "Museo", "Cine", "Pijama", "Abuela", "Navidad"
+const decks = {
+  Animales: [
+    { word: "Gato", clue: "Pelo" },
+    { word: "Perro", clue: "Correa" },
+    { word: "Tiburón", clue: "Aleta" },
+    { word: "Caballo", clue: "Crin" },
+    { word: "Pingüino", clue: "Hielo" },
+    { word: "León", clue: "Melena" },
+    { word: "Serpiente", clue: "Escamas" },
+    { word: "Elefante", clue: "Trompa" },
+    { word: "Mariposa", clue: "Alas" },
+    { word: "Tortuga", clue: "Caparazón" },
+    { word: "Conejo", clue: "Zanahoria" },
+    { word: "Águila", clue: "Plumas" }
   ],
-  "Lugares": [
-    "Aeropuerto", "Hotel", "Teatro", "Estación", "Castillo", "Panadería", "Universidad", "Gimnasio",
-    "Puerto", "Montaña", "Isla", "Jardín", "Oficina", "Farmacia", "Banco", "Iglesia", "Metro", "Camping",
-    "Peluquería", "Circo", "Fábrica", "Librería", "Mercadillo", "Spa", "Terraza", "Zoológico"
+  Comida: [
+    { word: "Pizza", clue: "Queso" },
+    { word: "Sushi", clue: "Arroz" },
+    { word: "Croquetas", clue: "Bechamel" },
+    { word: "Paella", clue: "Azafrán" },
+    { word: "Hamburguesa", clue: "Pan" },
+    { word: "Chocolate", clue: "Cacao" },
+    { word: "Helado", clue: "Frío" },
+    { word: "Tortilla", clue: "Huevo" },
+    { word: "Churros", clue: "Azúcar" },
+    { word: "Gazpacho", clue: "Tomate" },
+    { word: "Tacos", clue: "Maíz" },
+    { word: "Pasta", clue: "Salsa" }
   ],
-  "Comida": [
-    "Croquetas", "Paella", "Sushi", "Hamburguesa", "Queso", "Gazpacho", "Canelones", "Tarta",
-    "Cereales", "Macarrones", "Ensalada", "Donut", "Bocadillo", "Patatas", "Crema", "Yogur", "Caramelo",
-    "Churros", "Aceitunas", "Tacos", "Lentejas", "Tostada", "Brownie", "Pasta", "Galletas", "Mermelada"
+  Lugares: [
+    { word: "Aeropuerto", clue: "Maleta" },
+    { word: "Playa", clue: "Arena" },
+    { word: "Hospital", clue: "Camilla" },
+    { word: "Biblioteca", clue: "Silencio" },
+    { word: "Cine", clue: "Pantalla" },
+    { word: "Hotel", clue: "Recepción" },
+    { word: "Gimnasio", clue: "Pesas" },
+    { word: "Museo", clue: "Cuadro" },
+    { word: "Restaurante", clue: "Carta" },
+    { word: "Estación", clue: "Andén" },
+    { word: "Supermercado", clue: "Carrito" },
+    { word: "Montaña", clue: "Cumbre" }
   ],
-  "Objetos": [
-    "Reloj", "Llave", "Vela", "Espejo", "Cuaderno", "Sombrero", "Paraguas", "Anillo", "Carta",
-    "Teléfono", "Lámpara", "Mapa", "Cuchara", "Mochila", "Cámara", "Moneda", "Botella", "Bolígrafo",
-    "Almohada", "Cepillo", "Tijeras", "Radio", "Caja", "Guantes", "Perfume", "Silla"
+  Objetos: [
+    { word: "Reloj", clue: "Hora" },
+    { word: "Llave", clue: "Puerta" },
+    { word: "Sombrero", clue: "Cabeza" },
+    { word: "Paraguas", clue: "Lluvia" },
+    { word: "Espejo", clue: "Reflejo" },
+    { word: "Teléfono", clue: "Llamada" },
+    { word: "Mapa", clue: "Ruta" },
+    { word: "Mochila", clue: "Espalda" },
+    { word: "Vela", clue: "Fuego" },
+    { word: "Carta", clue: "Sobre" },
+    { word: "Cámara", clue: "Foto" },
+    { word: "Anillo", clue: "Dedo" }
   ],
-  "Acciones": [
-    "Correr", "Cantar", "Cocinar", "Bailar", "Dormir", "Comprar", "Nadar", "Leer", "Viajar",
-    "Llamar", "Pintar", "Gritar", "Esperar", "Buscar", "Romper", "Limpiar", "Construir", "Escuchar",
-    "Esconder", "Aplaudir", "Celebrar", "Ordenar", "Saltar", "Conducir", "Soñar", "Regalar"
-  ],
-  "Personalizadas": []
+  Acciones: [
+    { word: "Correr", clue: "Velocidad" },
+    { word: "Cantar", clue: "Voz" },
+    { word: "Bailar", clue: "Ritmo" },
+    { word: "Cocinar", clue: "Receta" },
+    { word: "Dormir", clue: "Sueño" },
+    { word: "Nadar", clue: "Agua" },
+    { word: "Leer", clue: "Libro" },
+    { word: "Viajar", clue: "Destino" },
+    { word: "Comprar", clue: "Bolsa" },
+    { word: "Pintar", clue: "Color" },
+    { word: "Conducir", clue: "Volante" },
+    { word: "Esconder", clue: "Secreto" }
+  ]
 };
+
+const fallbackClues = [
+  "Relacionado", "Parecido", "Cerca", "Pista", "Categoría", "Señal", "Detalle", "Sospecha"
+];
 
 const state = {
   players: [],
-  category: "Familia",
+  mode: "builtin",
+  category: "Animales",
+  round: 1,
+  totalRounds: 5,
   word: "",
+  clue: "",
   impostorIndexes: new Set(),
-  showCategoryToImpostor: false,
   revealIndex: 0,
-  isRoleVisible: false,
+  roleVisible: false,
   selectedVoteIndex: null,
-  timerSeconds: 0,
-  timerRemaining: 0,
+  timerSeconds: 90,
+  timerRemaining: 90,
   timerId: null,
   timerPaused: false
 };
@@ -45,9 +96,8 @@ const state = {
 const $ = (id) => document.getElementById(id);
 
 const screens = [
-  "screenStart",
-  "screenRules",
   "screenSetup",
+  "screenRules",
   "screenReveal",
   "screenRound",
   "screenVote",
@@ -55,7 +105,7 @@ const screens = [
 ];
 
 function showScreen(screenId) {
-  screens.forEach((id) => $(id).classList.toggle("hidden", id !== screenId));
+  screens.forEach((id) => $(id).classList.toggle("active", id === screenId));
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -85,18 +135,28 @@ function formatTime(totalSeconds) {
   return `${minutes}:${seconds}`;
 }
 
-function saveLastPlayers(players) {
+function plural(value, singular, pluralText) {
+  return value === 1 ? singular : pluralText;
+}
+
+function safeText(value) {
+  const element = document.createElement("span");
+  element.textContent = value;
+  return element.innerHTML;
+}
+
+function savePlayers(players) {
   localStorage.setItem("impostor:lastPlayers", players.join("\n"));
 }
 
-function loadLastPlayers() {
+function loadPlayers() {
   return localStorage.getItem("impostor:lastPlayers") || "";
 }
 
 function populateCategories() {
   const select = $("categorySelect");
   select.innerHTML = "";
-  Object.keys(categories).forEach((category) => {
+  Object.keys(decks).forEach((category) => {
     const option = document.createElement("option");
     option.value = category;
     option.textContent = category;
@@ -104,31 +164,97 @@ function populateCategories() {
   });
 }
 
-function validateSetup({ players, impostorCount, category, words }) {
-  if (players.length < 3) return "Necesitas al menos 3 jugadores.";
-  if (new Set(players.map((name) => name.toLowerCase())).size !== players.length) {
-    return "Hay nombres repetidos. Usa nombres distintos para votar sin confusión.";
+function parseCustomDeck(value) {
+  return normalizeLines(value)
+    .map((line) => {
+      const separators = ["|", ":", "-", "—"];
+      let separator = separators.find((item) => line.includes(item));
+
+      if (!separator) {
+        return {
+          word: line,
+          clue: randomItem(fallbackClues)
+        };
+      }
+
+      const [word, ...clueParts] = line.split(separator);
+      const cleanWord = word.trim();
+      const cleanClue = clueParts.join(separator).trim();
+
+      if (!cleanWord) return null;
+
+      return {
+        word: cleanWord,
+        clue: cleanClue || randomItem(fallbackClues)
+      };
+    })
+    .filter(Boolean);
+}
+
+function getCurrentDeck() {
+  if (state.mode === "custom") {
+    return parseCustomDeck($("customWordsInput").value);
   }
+
+  return decks[$("categorySelect").value] || [];
+}
+
+function getPlayersFromInput() {
+  return normalizeLines($("playersInput").value);
+}
+
+function updatePlayersCount() {
+  const total = getPlayersFromInput().length;
+  $("playersCountLabel").textContent = `${total} ${plural(total, "jugador", "jugadores")}`;
+}
+
+function updateFeatureStrip() {
+  const timer = Number($("timerInput").value);
+  const rounds = Number($("roundsInput").value);
+  $("featureTimer").textContent = timer === 0 ? "Sin temporizador" : formatTimerLabel(timer);
+  $("featureRounds").textContent = `${rounds} ${plural(rounds, "ronda", "rondas")}`;
+}
+
+function formatTimerLabel(seconds) {
+  if (seconds === 60) return "1 minuto";
+  if (seconds < 60) return `${seconds} segundos`;
+  if (seconds % 60 === 0) return `${seconds / 60} minutos`;
+  return `${seconds} segundos`;
+}
+
+function setMode(mode) {
+  state.mode = mode;
+  $("builtInModeButton").classList.toggle("active", mode === "builtin");
+  $("customModeButton").classList.toggle("active", mode === "custom");
+  $("categoryRow").classList.toggle("hidden", mode === "custom");
+  $("customWordsBlock").classList.toggle("hidden", mode !== "custom");
+}
+
+function changeImpostorCount(delta) {
+  const input = $("impostorCountInput");
+  const current = Number(input.value) || 1;
+  const next = Math.min(3, Math.max(1, current + delta));
+  input.value = String(next);
+}
+
+function validateSetup(players, impostorCount, deck) {
+  const lowerNames = players.map((name) => name.toLowerCase());
+
+  if (players.length < 3) return "Necesitas al menos 3 jugadores.";
+  if (new Set(lowerNames).size !== players.length) return "Hay nombres repetidos. Usa nombres distintos.";
   if (impostorCount < 1) return "Debe haber al menos 1 impostor.";
   if (impostorCount >= players.length) return "Debe haber menos impostores que jugadores.";
-  if (category === "Personalizadas" && words.length < 2) {
-    return "Añade al menos 2 palabras personalizadas para que la partida tenga variedad.";
-  }
-  if (category !== "Personalizadas" && (!categories[category] || categories[category].length === 0)) {
-    return "Esta categoría no tiene palabras disponibles.";
-  }
+  if (impostorCount > 3) return "Máximo 3 impostores para que el juego siga siendo claro.";
+  if (deck.length < 2) return "Necesitas al menos 2 parejas de palabra y pista.";
+
   return "";
 }
 
-function createGame({ keepPlayers = false } = {}) {
-  const players = keepPlayers ? state.players : normalizeLines($("playersInput").value);
-  const category = keepPlayers ? state.category : $("categorySelect").value;
-  const customWords = normalizeLines($("customWordsInput").value);
+function createGame({ keepPlayers = false, keepRound = false } = {}) {
+  const players = keepPlayers ? state.players : getPlayersFromInput();
   const impostorCount = keepPlayers ? state.impostorIndexes.size : Number($("impostorCountInput").value);
-  const timerSeconds = keepPlayers ? state.timerSeconds : Number($("timerInput").value);
-  const showCategoryToImpostor = keepPlayers ? state.showCategoryToImpostor : $("showCategoryToImpostorInput").checked;
-  const wordPool = category === "Personalizadas" ? customWords : categories[category];
-  const error = validateSetup({ players, impostorCount, category, words: wordPool });
+  const deck = getCurrentDeck();
+  const error = validateSetup(players, impostorCount, deck);
 
   if (error) {
     $("setupError").textContent = error;
@@ -136,84 +262,118 @@ function createGame({ keepPlayers = false } = {}) {
     return;
   }
 
-  const shuffledIndexes = shuffle(players.map((_, index) => index));
+  const selected = randomItem(deck);
+  const indexes = shuffle(players.map((_, index) => index)).slice(0, impostorCount);
+
   state.players = players;
-  state.category = category;
-  state.word = randomItem(wordPool);
-  state.impostorIndexes = new Set(shuffledIndexes.slice(0, impostorCount));
-  state.showCategoryToImpostor = showCategoryToImpostor;
+  state.category = state.mode === "custom" ? "Personalizadas" : $("categorySelect").value;
+  state.word = selected.word;
+  state.clue = selected.clue;
+  state.impostorIndexes = new Set(indexes);
   state.revealIndex = 0;
-  state.isRoleVisible = false;
+  state.roleVisible = false;
   state.selectedVoteIndex = null;
-  state.timerSeconds = timerSeconds;
-  state.timerRemaining = timerSeconds;
+  state.timerSeconds = Number($("timerInput").value);
+  state.timerRemaining = state.timerSeconds;
+  state.totalRounds = Number($("roundsInput").value);
+  state.round = keepRound ? Math.min(state.round + 1, state.totalRounds) : 1;
   state.timerPaused = false;
 
-  saveLastPlayers(players);
+  savePlayers(players);
   stopTimer();
+  $("setupError").classList.add("hidden");
+  renderStatus();
   renderReveal();
   showScreen("screenReveal");
 }
 
+function renderStatus() {
+  const impostorCount = state.impostorIndexes.size;
+  $("statusPlayers").textContent = `${state.players.length} ${plural(state.players.length, "jugador", "jugadores")}`;
+  $("statusImpostors").textContent = `${impostorCount} ${plural(impostorCount, "impostor", "impostores")}`;
+  $("statusCategory").textContent = state.category;
+  $("roundLabel").textContent = `Ronda ${state.round} de ${state.totalRounds}`;
+}
+
 function renderReveal() {
-  const player = state.players[state.revealIndex];
+  const playerName = state.players[state.revealIndex];
   const isImpostor = state.impostorIndexes.has(state.revealIndex);
+  const isLastPlayer = state.revealIndex === state.players.length - 1;
 
-  $("revealProgress").textContent = `Turno ${state.revealIndex + 1} de ${state.players.length}`;
-  $("revealPlayerName").textContent = player;
-  $("closedNote").classList.toggle("hidden", state.isRoleVisible);
-  $("secretNote").classList.toggle("hidden", !state.isRoleVisible);
+  $("revealProgress").textContent = `Jugador ${state.revealIndex + 1} de ${state.players.length}`;
+  $("closedPlayerName").textContent = playerName;
+  $("closedState").classList.toggle("hidden", state.roleVisible);
+  $("roleState").classList.toggle("hidden", !state.roleVisible);
+  $("nextRevealButton").disabled = !state.roleVisible;
+  $("hideScreenButton").disabled = !state.roleVisible;
+  $("nextRevealLabel").textContent = isLastPlayer ? "Empezar discusión" : "Pasar al siguiente";
 
-  if (!state.isRoleVisible) return;
+  if (!state.roleVisible) return;
+
+  $("roleSymbol").className = `role-symbol ${isImpostor ? "impostor-symbol" : "citizen-symbol"}`;
+  $("roleTitle").className = isImpostor ? "impostor-title" : "";
+  $("secretField").classList.toggle("citizen-secret", !isImpostor);
 
   if (isImpostor) {
     $("roleTitle").textContent = "Eres el impostor";
-    $("secretWord").textContent = "Improvisa";
-    $("roleHint").textContent = state.showCategoryToImpostor
-      ? `La categoría es ${state.category}. No conoces la palabra exacta.`
-      : "No conoces la palabra secreta. Escucha bien y finge seguridad.";
+    $("roleDescription").textContent = "No conoces la palabra exacta. Usa la pista y disimula.";
+    $("secretLabel").textContent = "Pista relacionada";
+    $("secretValue").textContent = state.clue;
+    $("secretStamp").textContent = "Confidencial";
   } else {
-    $("roleTitle").textContent = "Palabra secreta";
-    $("secretWord").textContent = state.word;
-    $("roleHint").textContent = "Recuerda la palabra y no la digas en voz alta.";
+    $("roleTitle").textContent = "Ciudadano";
+    $("roleDescription").textContent = "Conoces la palabra secreta. Da pistas sin decirla literalmente.";
+    $("secretLabel").textContent = "Palabra secreta";
+    $("secretValue").textContent = state.word;
+    $("secretStamp").textContent = "Reservado";
   }
-
-  $("hideAndNextButton").textContent =
-    state.revealIndex === state.players.length - 1 ? "Ocultar y empezar ronda" : "Ocultar y pasar";
 }
 
-function showCurrentRole() {
-  state.isRoleVisible = true;
+function showRole() {
+  state.roleVisible = true;
   renderReveal();
 }
 
-function hideAndMoveNext() {
-  state.isRoleVisible = false;
+function hideRole() {
+  state.roleVisible = false;
+  renderReveal();
+}
+
+function nextReveal() {
+  state.roleVisible = false;
+
   if (state.revealIndex < state.players.length - 1) {
     state.revealIndex += 1;
     renderReveal();
-  } else {
-    renderRound();
-    showScreen("screenRound");
-    startTimerIfNeeded();
+    return;
   }
+
+  renderRound();
+  showScreen("screenRound");
+  startTimer();
 }
 
 function renderRound() {
-  const hasTimer = state.timerSeconds > 0;
-  $("timerCard").classList.toggle("hidden", !hasTimer);
-  $("timerDisplay").textContent = formatTime(state.timerRemaining);
+  const formatted = state.timerSeconds === 0 ? "∞" : formatTime(state.timerRemaining);
+  $("timerDisplay").textContent = formatted;
+  $("voteTimerDisplay").textContent = formatted;
+  $("timerBlock").classList.toggle("no-timer", state.timerSeconds === 0);
+  $("pauseTimerButton").disabled = state.timerSeconds === 0;
+  $("restartTimerButton").disabled = state.timerSeconds === 0;
   $("pauseTimerButton").textContent = state.timerPaused ? "Continuar" : "Pausar";
 }
 
-function startTimerIfNeeded() {
-  if (state.timerSeconds <= 0) return;
+function startTimer() {
   stopTimer();
+  if (state.timerSeconds === 0) return;
+
   state.timerPaused = false;
   state.timerId = window.setInterval(() => {
     if (state.timerPaused) return;
+
     state.timerRemaining = Math.max(0, state.timerRemaining - 1);
-    $("timerDisplay").textContent = formatTime(state.timerRemaining);
+    renderRound();
+
     if (state.timerRemaining === 0) {
       stopTimer();
       $("pauseTimerButton").textContent = "Tiempo agotado";
@@ -228,112 +388,133 @@ function stopTimer() {
   }
 }
 
-function toggleTimerPause() {
-  if (state.timerRemaining === 0) return;
+function pauseTimer() {
+  if (state.timerSeconds === 0 || state.timerRemaining === 0) return;
   state.timerPaused = !state.timerPaused;
-  $("pauseTimerButton").textContent = state.timerPaused ? "Continuar" : "Pausar";
+  renderRound();
 }
 
-function resetTimer() {
+function restartTimer() {
   state.timerRemaining = state.timerSeconds;
   state.timerPaused = false;
   renderRound();
-  startTimerIfNeeded();
+  startTimer();
 }
 
 function renderVote() {
   const list = $("voteList");
   list.innerHTML = "";
+  $("showResultButton").disabled = state.selectedVoteIndex === null;
+  renderRound();
+  renderStatus();
 
   state.players.forEach((player, index) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "vote-option";
     button.setAttribute("aria-pressed", String(state.selectedVoteIndex === index));
-    button.innerHTML = `<strong>${player}</strong><span>${state.selectedVoteIndex === index ? "Elegido" : "Votar"}</span>`;
+    button.innerHTML = `
+      <span class="avatar" aria-hidden="true">${safeText(player.charAt(0).toUpperCase())}</span>
+      <strong>${safeText(player)}</strong>
+      <span class="radio" aria-hidden="true"></span>
+    `;
     button.addEventListener("click", () => {
       state.selectedVoteIndex = index;
-      $("showResultButton").disabled = false;
       renderVote();
     });
     list.appendChild(button);
   });
-
-  $("showResultButton").disabled = state.selectedVoteIndex === null;
 }
 
 function renderResult() {
+  const grid = $("resultGrid");
   const selectedName = state.players[state.selectedVoteIndex];
   const impostorNames = [...state.impostorIndexes].map((index) => state.players[index]);
-  const hasCaughtImpostor = state.impostorIndexes.has(state.selectedVoteIndex);
+  const caught = state.impostorIndexes.has(state.selectedVoteIndex);
 
-  $("resultTitle").textContent = hasCaughtImpostor ? "Impostor descubierto" : "El impostor ha sobrevivido";
+  $("resultTitle").textContent = caught ? "Impostor descubierto" : "El impostor ha sobrevivido";
 
-  const resultBox = $("resultBox");
-  resultBox.innerHTML = "";
-
-  const verdict = document.createElement("div");
-  verdict.className = "result-line";
-  verdict.innerHTML = `<strong>${hasCaughtImpostor ? "Gana el grupo" : "Gana el impostor"}</strong>Habéis votado a ${selectedName}.`;
-
-  const word = document.createElement("div");
-  word.className = "result-line";
-  word.innerHTML = `<strong>La palabra secreta era</strong><span class="secret-word" style="font-size: clamp(2rem, 9vw, 4.4rem); margin: .25rem 0 0; display: block;">${state.word}</span>`;
-
-  const impostors = document.createElement("div");
-  impostors.className = "result-line";
-  impostors.innerHTML = `<strong>${impostorNames.length === 1 ? "El impostor era" : "Los impostores eran"}</strong>`;
-  const pillRow = document.createElement("div");
-  pillRow.className = "player-pill-row";
-  impostorNames.forEach((name) => {
-    const pill = document.createElement("span");
-    pill.className = "player-pill";
-    pill.textContent = name;
-    pillRow.appendChild(pill);
-  });
-  impostors.appendChild(pillRow);
-
-  resultBox.append(verdict, word, impostors);
+  grid.innerHTML = `
+    <div class="result-card ${caught ? "" : "red"}">
+      <span>Veredicto</span>
+      <strong>${caught ? "Gana el grupo" : "Ganan los impostores"}</strong>
+    </div>
+    <div class="result-card">
+      <span>Votado</span>
+      <strong>${safeText(selectedName)}</strong>
+    </div>
+    <div class="result-card red">
+      <span>${impostorNames.length === 1 ? "Impostor" : "Impostores"}</span>
+      <strong>${safeText(impostorNames.join(", "))}</strong>
+    </div>
+    <div class="result-card wide">
+      <span>Palabra secreta</span>
+      <strong>${safeText(state.word)}</strong>
+    </div>
+    <div class="result-card wide red">
+      <span>Pista que recibieron los impostores</span>
+      <strong>${safeText(state.clue)}</strong>
+    </div>
+  `;
 }
 
-function resetToSetup() {
+function goToSetup() {
   stopTimer();
-  $("setupError").classList.add("hidden");
   showScreen("screenSetup");
 }
 
+function loadExample() {
+  $("playersInput").value = "Clara\nMateo\nLucía\nPablo\nSara\nDiego";
+  $("impostorCountInput").value = "1";
+  $("categorySelect").value = "Animales";
+  $("timerInput").value = "90";
+  $("roundsInput").value = "5";
+  setMode("builtin");
+  updatePlayersCount();
+  updateFeatureStrip();
+}
+
+function shufflePreview() {
+  const preview = randomItem(decks.Animales);
+  document.querySelector(".example-word").textContent = preview.word;
+  document.querySelector(".example-clue").innerHTML = `${safeText(preview.clue)} <span>Ejemplo</span>`;
+}
+
 function bindEvents() {
-  $("startSetupButton").addEventListener("click", resetToSetup);
-  $("howToPlayButton").addEventListener("click", () => showScreen("screenRules"));
-  $("backFromRulesButton").addEventListener("click", () => showScreen("screenStart"));
-  $("rulesToSetupButton").addEventListener("click", resetToSetup);
-  $("resetGameButton").addEventListener("click", () => {
+  $("brandButton").addEventListener("click", goToSetup);
+  $("rulesButton").addEventListener("click", () => showScreen("screenRules"));
+  $("backToSetupButton").addEventListener("click", () => showScreen("screenSetup"));
+  $("resetButton").addEventListener("click", () => {
     stopTimer();
-    showScreen("screenStart");
+    state.round = 1;
+    showScreen("screenSetup");
   });
-  $("categorySelect").addEventListener("change", () => {
-    $("customWordsBlock").classList.toggle("hidden", $("categorySelect").value !== "Personalizadas");
-  });
+
+  $("playersInput").addEventListener("input", updatePlayersCount);
+  $("timerInput").addEventListener("change", updateFeatureStrip);
+  $("roundsInput").addEventListener("change", updateFeatureStrip);
+  $("builtInModeButton").addEventListener("click", () => setMode("builtin"));
+  $("customModeButton").addEventListener("click", () => setMode("custom"));
+  $("impostorMinusButton").addEventListener("click", () => changeImpostorCount(-1));
+  $("impostorPlusButton").addEventListener("click", () => changeImpostorCount(1));
+  $("loadExampleButton").addEventListener("click", loadExample);
+  $("shuffleExampleButton").addEventListener("click", shufflePreview);
+
   $("setupForm").addEventListener("submit", (event) => {
     event.preventDefault();
     createGame();
   });
-  $("loadExampleButton").addEventListener("click", () => {
-    $("playersInput").value = "Ana\nMarc\nNuria\nXavier\nMarta";
-    $("categorySelect").value = "Familia";
-    $("impostorCountInput").value = "1";
-    $("timerInput").value = "180";
-    $("showCategoryToImpostorInput").checked = true;
-    $("customWordsBlock").classList.add("hidden");
-  });
-  $("showRoleButton").addEventListener("click", showCurrentRole);
-  $("hideAndNextButton").addEventListener("click", hideAndMoveNext);
-  $("pauseTimerButton").addEventListener("click", toggleTimerPause);
-  $("resetTimerButton").addEventListener("click", resetTimer);
+
+  $("showRoleButton").addEventListener("click", showRole);
+  $("hideScreenButton").addEventListener("click", hideRole);
+  $("nextRevealButton").addEventListener("click", nextReveal);
+
+  $("pauseTimerButton").addEventListener("click", pauseTimer);
+  $("restartTimerButton").addEventListener("click", restartTimer);
   $("reviewRolesButton").addEventListener("click", () => {
     stopTimer();
     state.revealIndex = 0;
-    state.isRoleVisible = false;
+    state.roleVisible = false;
     renderReveal();
     showScreen("screenReveal");
   });
@@ -345,22 +526,34 @@ function bindEvents() {
   $("backToRoundButton").addEventListener("click", () => {
     renderRound();
     showScreen("screenRound");
-    startTimerIfNeeded();
+    startTimer();
   });
   $("showResultButton").addEventListener("click", () => {
     renderResult();
     showScreen("screenResult");
   });
-  $("samePlayersButton").addEventListener("click", () => createGame({ keepPlayers: true }));
-  $("newGameButton").addEventListener("click", resetToSetup);
+  $("samePlayersButton").addEventListener("click", () => createGame({ keepPlayers: true, keepRound: true }));
+  $("newGameButton").addEventListener("click", () => {
+    state.round = 1;
+    goToSetup();
+  });
 }
 
 function init() {
   populateCategories();
   bindEvents();
-  const lastPlayers = loadLastPlayers();
-  if (lastPlayers) $("playersInput").value = lastPlayers;
-  showScreen("screenStart");
+  const storedPlayers = loadPlayers();
+
+  if (storedPlayers) {
+    $("playersInput").value = storedPlayers;
+  } else {
+    loadExample();
+  }
+
+  updatePlayersCount();
+  updateFeatureStrip();
+  setMode("builtin");
+  showScreen("screenSetup");
 }
 
 init();
