@@ -1,996 +1,750 @@
-const app = document.querySelector("#app");
+const app = document.querySelector('#app');
 
-const DEFAULT_PLAYERS = ["Clara", "Mateo", "Lucía", "Pablo", "Sara", "Diego"];
-
-const DECKS = {
-  animales: [
-    { word: "Gato", clue: "Pelo" },
-    { word: "Perro", clue: "Correa" },
-    { word: "Caballo", clue: "Montura" },
-    { word: "Tiburón", clue: "Aleta" },
-    { word: "León", clue: "Melena" },
-    { word: "Pingüino", clue: "Hielo" },
-    { word: "Elefante", clue: "Trompa" },
-    { word: "Serpiente", clue: "Escamas" },
-    { word: "Águila", clue: "Cielo" },
-    { word: "Delfín", clue: "Mar" },
-    { word: "Conejo", clue: "Zanahoria" },
-    { word: "Oso", clue: "Miel" }
-  ],
-  comida: [
-    { word: "Pizza", clue: "Queso" },
-    { word: "Sushi", clue: "Arroz" },
-    { word: "Hamburguesa", clue: "Pan" },
-    { word: "Chocolate", clue: "Cacao" },
-    { word: "Paella", clue: "Azafrán" },
-    { word: "Helado", clue: "Frío" },
-    { word: "Tortilla", clue: "Huevo" },
-    { word: "Croissant", clue: "Mantequilla" },
-    { word: "Taco", clue: "Maíz" },
-    { word: "Café", clue: "Taza" }
-  ],
-  lugares: [
-    { word: "Playa", clue: "Arena" },
-    { word: "Hospital", clue: "Camilla" },
-    { word: "Biblioteca", clue: "Silencio" },
-    { word: "Aeropuerto", clue: "Maleta" },
-    { word: "Castillo", clue: "Muralla" },
-    { word: "Museo", clue: "Cuadro" },
-    { word: "Gimnasio", clue: "Pesas" },
-    { word: "Teatro", clue: "Telón" },
-    { word: "Mercado", clue: "Puesto" },
-    { word: "Montaña", clue: "Cima" }
-  ],
-  objetos: [
-    { word: "Teléfono", clue: "Pantalla" },
-    { word: "Reloj", clue: "Hora" },
-    { word: "Paraguas", clue: "Lluvia" },
-    { word: "Llave", clue: "Puerta" },
-    { word: "Gafas", clue: "Cristal" },
-    { word: "Mochila", clue: "Espalda" },
-    { word: "Cámara", clue: "Foto" },
-    { word: "Libro", clue: "Página" },
-    { word: "Vela", clue: "Fuego" },
-    { word: "Mapa", clue: "Ruta" }
-  ],
-  cultura: [
-    { word: "Cine", clue: "Pantalla" },
-    { word: "Música", clue: "Ritmo" },
-    { word: "Fútbol", clue: "Gol" },
-    { word: "Magia", clue: "Truco" },
-    { word: "Carnaval", clue: "Disfraz" },
-    { word: "Cumpleaños", clue: "Tarta" },
-    { word: "Navidad", clue: "Regalo" },
-    { word: "Boda", clue: "Anillo" },
-    { word: "Viaje", clue: "Billete" },
-    { word: "Universidad", clue: "Examen" }
-  ]
+const decks = {
+  animales: {
+    label: 'Animales',
+    pairs: [
+      ['Gato', 'Pelo'], ['Perro', 'Collar'], ['Caballo', 'Montura'], ['Tiburón', 'Aleta'],
+      ['Abeja', 'Miel'], ['Búho', 'Noche'], ['Serpiente', 'Escamas'], ['Pingüino', 'Hielo'],
+      ['Conejo', 'Zanahoria'], ['Elefante', 'Trompa'], ['Delfín', 'Ola'], ['Araña', 'Tela']
+    ]
+  },
+  comida: {
+    label: 'Comida',
+    pairs: [
+      ['Pizza', 'Queso'], ['Sushi', 'Arroz'], ['Tortilla', 'Huevo'], ['Hamburguesa', 'Pan'],
+      ['Helado', 'Frío'], ['Paella', 'Azafrán'], ['Chocolate', 'Cacao'], ['Café', 'Taza'],
+      ['Croissant', 'Mantequilla'], ['Ensalada', 'Lechuga'], ['Tacos', 'Maíz'], ['Pasta', 'Salsa']
+    ]
+  },
+  objetos: {
+    label: 'Objetos',
+    pairs: [
+      ['Llave', 'Cerradura'], ['Reloj', 'Hora'], ['Libro', 'Página'], ['Paraguas', 'Lluvia'],
+      ['Vela', 'Fuego'], ['Maleta', 'Viaje'], ['Espejo', 'Reflejo'], ['Cámara', 'Foto'],
+      ['Teléfono', 'Llamada'], ['Gafas', 'Vista'], ['Mapa', 'Ruta'], ['Carta', 'Sobre']
+    ]
+  },
+  lugares: {
+    label: 'Lugares',
+    pairs: [
+      ['Playa', 'Arena'], ['Biblioteca', 'Silencio'], ['Hospital', 'Bata'], ['Aeropuerto', 'Maleta'],
+      ['Museo', 'Cuadro'], ['Cine', 'Pantalla'], ['Teatro', 'Escenario'], ['Mercado', 'Puesto'],
+      ['Bosque', 'Árboles'], ['Castillo', 'Muralla'], ['Estación', 'Tren'], ['Hotel', 'Recepción']
+    ]
+  },
+  acciones: {
+    label: 'Acciones',
+    pairs: [
+      ['Dormir', 'Almohada'], ['Correr', 'Zapatillas'], ['Cocinar', 'Sartén'], ['Bailar', 'Música'],
+      ['Leer', 'Libro'], ['Nadar', 'Agua'], ['Pintar', 'Pincel'], ['Viajar', 'Billete'],
+      ['Cantar', 'Micrófono'], ['Comprar', 'Bolsa'], ['Escribir', 'Tinta'], ['Conducir', 'Volante']
+    ]
+  },
+  famosos: {
+    label: 'Personajes',
+    pairs: [
+      ['Vampiro', 'Colmillos'], ['Pirata', 'Tesoro'], ['Robot', 'Metal'], ['Fantasma', 'Sábana'],
+      ['Mago', 'Varita'], ['Astronauta', 'Casco'], ['Ninja', 'Sombra'], ['Payaso', 'Nariz'],
+      ['Sirena', 'Mar'], ['Caballero', 'Armadura'], ['Zombie', 'Cerebro'], ['Chef', 'Gorro']
+    ]
+  }
 };
 
-const DEFAULT_CUSTOM = `Gato - Pelo\nPlaya - Arena\nPizza - Queso\nTeléfono - Pantalla\nAeropuerto - Maleta`;
+const defaultPlayers = [
+  { id: cryptoId(), name: 'Clara', alive: true },
+  { id: cryptoId(), name: 'Mateo', alive: true },
+  { id: cryptoId(), name: 'Lucía', alive: true },
+  { id: cryptoId(), name: 'Pablo', alive: true }
+];
 
-let state = loadState() || {
-  screen: "setup",
-  players: DEFAULT_PLAYERS.map((name) => createPlayer(name)),
-  playerInput: "",
-  impostorCount: 1,
-  category: "animales",
-  mode: "included",
-  customRaw: DEFAULT_CUSTOM,
-  timerSeconds: 90,
-  roundLimit: 5,
-  currentRound: 1,
-  currentRevealIndex: 0,
+const savedSetup = readSetup();
+
+let state = {
+  stage: 'setup',
+  players: savedSetup?.players?.length ? savedSetup.players.map(name => ({ id: cryptoId(), name, alive: true })) : defaultPlayers,
+  impostorCount: savedSetup?.impostorCount || 1,
+  category: savedSetup?.category || 'animales',
+  pair: null,
+  revealIndex: 0,
   revealOpen: false,
-  assignment: null,
-  timerLeft: 90,
+  selectedTargetId: null,
+  eliminatedLog: [],
+  round: 1,
+  timerSeconds: 90,
   timerRunning: false,
-  selectedVotes: [],
-  error: ""
+  timerLeft: 90,
+  timerId: null,
+  error: ''
 };
 
-let timerId = null;
-let dragState = null;
+render();
 
-function createPlayer(name) {
-  return {
-    id: cryptoRandomId(),
-    name: name.trim()
-  };
+function cryptoId() {
+  if (window.crypto?.randomUUID) return crypto.randomUUID();
+  return `id-${Math.random().toString(36).slice(2)}-${Date.now()}`;
 }
 
-function cryptoRandomId() {
-  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-  return `id-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
 }
 
-function saveState() {
-  const safe = { ...state, timerRunning: false };
-  localStorage.setItem("el-impostor-state-v2", JSON.stringify(safe));
-}
-
-function loadState() {
+function readSetup() {
   try {
-    const raw = localStorage.getItem("el-impostor-state-v2");
-    if (!raw) return null;
-    return JSON.parse(raw);
+    return JSON.parse(localStorage.getItem('impostor-setup-v3'));
   } catch {
     return null;
   }
 }
 
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+function saveSetup() {
+  const data = {
+    players: state.players.map(p => p.name),
+    category: state.category,
+    impostorCount: state.impostorCount
+  };
+  localStorage.setItem('impostor-setup-v3', JSON.stringify(data));
 }
 
-function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, value));
+function render() {
+  stopTimerIfNeeded();
+  normalizeSettings();
+
+  const body = {
+    setup: renderSetup,
+    reveal: renderReveal,
+    discussion: renderDiscussion,
+    vote: renderVote,
+    result: renderResult,
+    end: renderEnd
+  }[state.stage]();
+
+  app.innerHTML = body;
+
+  bindGlobalActions();
+  if (state.stage === 'setup') bindSetupActions();
+  if (state.stage === 'reveal') bindRevealActions();
+  if (state.stage === 'discussion') bindDiscussionActions();
+  if (state.stage === 'vote') bindVoteActions();
+  if (state.stage === 'result') bindResultActions();
+  if (state.stage === 'end') bindEndActions();
 }
 
-function initials(name) {
-  return name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase())
-    .join("") || "?";
-}
-
-function getDeck() {
-  if (state.mode === "custom") {
-    const custom = parseCustomDeck(state.customRaw);
-    return custom.length ? custom : [];
-  }
-  return DECKS[state.category] || DECKS.animales;
-}
-
-function parseCustomDeck(raw) {
-  return raw
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => {
-      const separator = line.includes(" - ") ? " - " : line.includes("-") ? "-" : line.includes(",") ? "," : null;
-      if (!separator) return null;
-      const [word, clue] = line.split(separator).map((part) => part.trim());
-      if (!word || !clue) return null;
-      return { word, clue };
-    })
-    .filter(Boolean);
-}
-
-function pickRandom(items) {
-  return items[Math.floor(Math.random() * items.length)];
-}
-
-function shuffle(items) {
-  return [...items].sort(() => Math.random() - 0.5);
-}
-
-function formatTime(seconds) {
-  const minutes = Math.floor(seconds / 60).toString().padStart(2, "0");
-  const rest = Math.floor(seconds % 60).toString().padStart(2, "0");
-  return `${minutes}:${rest}`;
-}
-
-function currentPlayer() {
-  return state.players[state.currentRevealIndex];
-}
-
-function currentRoleFor(playerId) {
-  return state.assignment?.roles?.find((role) => role.playerId === playerId);
-}
-
-function startTimer() {
-  stopTimer();
-  state.timerRunning = true;
-  timerId = window.setInterval(() => {
-    state.timerLeft = Math.max(0, state.timerLeft - 1);
-    if (state.timerLeft <= 0) {
-      stopTimer(false);
-    }
-    render();
-  }, 1000);
-  render();
-}
-
-function stopTimer(shouldRender = true) {
-  if (timerId) window.clearInterval(timerId);
-  timerId = null;
-  state.timerRunning = false;
-  if (shouldRender) render();
-}
-
-function setError(message) {
-  state.error = message;
-  render();
-}
-
-function clearError() {
-  state.error = "";
-}
-
-function appHeader() {
-  const roundText = state.assignment ? `Ronda <strong>${state.currentRound}</strong> de ${state.roundLimit}` : `Modo <strong>local</strong>`;
+function header(extra = '') {
   return `
-    <header class="app-header">
-      <div class="brand" aria-label="El Impostor">
-        <div class="brand-mark">EI</div>
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">EI</div>
         <div>
-          <h1>El Impostor</h1>
-          <p>Hablad, insinuad y descubrid quién no encaja</p>
+          <h1 class="brand-title">El Impostor</h1>
+          <p class="brand-subtitle">Expediente cerrado. Pistas medidas.</p>
         </div>
       </div>
-      <div class="header-actions">
-        <div class="header-chip">${roundText}</div>
-        <button class="ghost-button" data-action="go-setup" type="button">Nueva partida</button>
-      </div>
+      <div class="top-actions">${extra}</div>
     </header>
   `;
 }
 
-function render() {
-  saveState();
-  app.innerHTML = `${appHeader()}<section class="stage">${renderScreen()}</section>`;
-  bindInputs();
-}
+function renderSetup() {
+  const maxImp = maxImpostors();
+  const canStart = state.players.length >= 3 && state.impostorCount < state.players.length;
+  const playerItems = state.players.map((player, index) => `
+    <li class="player-item" data-id="${player.id}">
+      <button class="drag-handle" type="button" aria-label="Arrastrar ${escapeHtml(player.name)}">••</button>
+      <span class="player-name">${index + 1}. ${escapeHtml(player.name)}</span>
+      <button class="remove-btn" type="button" data-remove="${player.id}" aria-label="Quitar ${escapeHtml(player.name)}">×</button>
+    </li>
+  `).join('');
 
-function renderScreen() {
-  if (state.screen === "reveal") return renderRevealScreen();
-  if (state.screen === "discussion") return renderDiscussionScreen();
-  if (state.screen === "vote") return renderVoteScreen();
-  if (state.screen === "result") return renderResultScreen();
-  return renderSetupScreen();
-}
-
-function renderSetupScreen() {
-  const maxImpostors = Math.max(1, Math.min(3, state.players.length - 1));
-  state.impostorCount = clamp(state.impostorCount, 1, maxImpostors);
-  const deckCount = getDeck().length;
-
-  return `
-    <div class="stage-inner setup-layout">
-      <section class="paper-card setup-panel" aria-label="Jugadores">
-        <div class="panel-head">
-          <div>
-            <p class="section-title">Preparar la mesa</p>
-            <h2>Jugadores</h2>
-            <p>Añádelos en orden. Puedes arrastrar para cambiar los turnos de revelación.</p>
-          </div>
-          <div class="count-pill">${state.players.length} jugadores</div>
-        </div>
-
-        <form class="add-player" data-form="add-player">
-          <input class="input" id="playerName" name="playerName" autocomplete="off" maxlength="24" placeholder="Nombre del jugador" value="${escapeHtml(state.playerInput || "")}" />
-          <button class="add-button" type="submit">Añadir</button>
-        </form>
-
-        <div class="player-list-wrap">
-          <div class="player-list" id="playerList" aria-label="Lista de jugadores">
-            ${state.players.map((player, index) => renderPlayerRow(player, index)).join("")}
-          </div>
-        </div>
-
-        <div class="setup-footer">
-          <div class="error-box">${escapeHtml(state.error)}</div>
-          <button class="primary-button start-button" data-action="start-game" type="button">Empezar ronda</button>
-        </div>
-      </section>
-
-      <aside class="config-panel card" aria-label="Configuración de partida">
-        <div class="rules-card card">
-          <h3>Regla clave</h3>
-          <p>Nadie ve la palabra durante la configuración. Al empezar, cada jugador mira su pantalla privada: los ciudadanos reciben la palabra; los impostores reciben solo una pista relacionada.</p>
-          <div class="role-compare">
-            <div class="role-mini"><span>Ciudadanos</span><strong>Palabra secreta</strong></div>
-            <div class="role-mini"><span>Impostores</span><strong>Pista relacionada</strong></div>
-          </div>
-        </div>
-
-        <div class="form-scroll">
-          <div class="form-row">
-            <label class="form-label">
-              <strong>Impostores</strong>
-              <small>Número oculto de impostores.</small>
-            </label>
-            <div class="stepper">
-              <button data-action="dec-impostors" type="button">−</button>
-              <output>${state.impostorCount}</output>
-              <button data-action="inc-impostors" type="button">+</button>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <label class="form-label">
-              <strong>Modo</strong>
-              <small>Usa mazos incluidos o escribe el tuyo.</small>
-            </label>
-            <div class="segmented">
-              <button class="${state.mode === "included" ? "active" : ""}" data-action="mode-included" type="button">Incluido</button>
-              <button class="${state.mode === "custom" ? "active" : ""}" data-action="mode-custom" type="button">Personalizado</button>
-            </div>
-          </div>
-
-          ${state.mode === "included" ? renderIncludedDeckControls() : renderCustomDeckControls(deckCount)}
-
-          <div class="form-row">
-            <label class="form-label">
-              <strong>Temporizador</strong>
-              <small>Tiempo de discusión.</small>
-            </label>
-            <select class="select" id="timerSelect">
-              ${[60, 90, 120, 180, 300].map((seconds) => `<option value="${seconds}" ${state.timerSeconds === seconds ? "selected" : ""}>${seconds < 60 ? seconds : `${seconds / 60} min`}</option>`).join("")}
-            </select>
-          </div>
-
-          <div class="form-row">
-            <label class="form-label">
-              <strong>Rondas</strong>
-              <small>Partidas seguidas con los mismos jugadores.</small>
-            </label>
-            <div class="stepper">
-              <button data-action="dec-rounds" type="button">−</button>
-              <output>${state.roundLimit}</output>
-              <button data-action="inc-rounds" type="button">+</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="round-strip" aria-label="Resumen">
-          <div class="strip-item"><span>Turnos</span><strong>Orden manual</strong></div>
-          <div class="strip-item"><span>Mazo</span><strong>${deckCount} pares</strong></div>
-          <div class="strip-item"><span>Privado</span><strong>Sin revelar antes</strong></div>
-          <div class="strip-item"><span>Anuncios</span><strong>Cero</strong></div>
-        </div>
-      </aside>
-    </div>
-  `;
-}
-
-function renderIncludedDeckControls() {
-  const options = Object.keys(DECKS).map((key) => {
-    const label = {
-      animales: "Animales",
-      comida: "Comida",
-      lugares: "Lugares",
-      objetos: "Objetos",
-      cultura: "Cultura general"
-    }[key] || key;
-    return `<option value="${key}" ${state.category === key ? "selected" : ""}>${label}</option>`;
-  }).join("");
-
-  return `
-    <div class="form-row">
-      <label class="form-label">
-        <strong>Categoría</strong>
-        <small>La palabra y la pista se escogen al empezar.</small>
-      </label>
-      <select class="select" id="categorySelect">${options}</select>
-    </div>
-  `;
-}
-
-function renderCustomDeckControls(deckCount) {
-  return `
-    <div class="custom-editor">
-      <label class="form-label" for="customRaw">
-        <strong>Mazo personalizado</strong>
-        <small>Un par por línea. Formato: Palabra - Pista. No se mostrará ninguna antes de empezar.</small>
-      </label>
-      <textarea class="textarea" id="customRaw" spellcheck="false">${escapeHtml(state.customRaw)}</textarea>
-      <small>${deckCount} pares válidos detectados.</small>
-    </div>
-  `;
-}
-
-function renderPlayerRow(player, index) {
-  return `
-    <div class="player-row" data-player-id="${player.id}" draggable="true">
-      <div class="drag-handle" data-drag-handle="${player.id}" title="Arrastrar">${index + 1}</div>
-      <div class="player-name">${escapeHtml(player.name)}</div>
-      <div class="row-actions">
-        <button class="tiny-button" data-action="move-player-up" data-id="${player.id}" type="button" aria-label="Subir jugador">↑</button>
-        <button class="tiny-button" data-action="move-player-down" data-id="${player.id}" type="button" aria-label="Bajar jugador">↓</button>
-        <button class="tiny-button" data-action="remove-player" data-id="${player.id}" type="button" aria-label="Eliminar jugador">×</button>
-      </div>
-    </div>
-  `;
-}
-
-function renderRevealScreen() {
-  const player = currentPlayer();
-  const role = currentRoleFor(player.id);
-  const playerNumber = state.currentRevealIndex + 1;
-  const total = state.players.length;
-  const isLast = playerNumber === total;
-
-  return `
-    <div class="stage-inner reveal-layout">
-      <div class="status-row">
-        <div class="status-card">Jugador <strong>${playerNumber}</strong> de ${total}</div>
-        <div class="status-card">Ronda <strong>${state.currentRound}</strong> de ${state.roundLimit}</div>
-        <div class="status-card"><strong>${state.impostorCount}</strong> impostor${state.impostorCount > 1 ? "es" : ""}</div>
-      </div>
-
-      <div class="reveal-center">
-        ${state.revealOpen ? renderOpenReveal(player, role) : renderClosedReveal(player)}
-      </div>
-
-      <div class="status-row">
-        <div class="status-card">Pasa el móvil en el orden de la lista. Cada persona ve solo su panel.</div>
-      </div>
-    </div>
-  `;
-}
-
-function renderClosedReveal(player) {
-  return `
-    <section class="paper-card reveal-card compact-closed" aria-label="Pantalla privada cerrada">
-      <div class="private-head">
-        <div>
-          <p class="section-title">Pantalla privada</p>
-          <small>Solo debe mirar esta persona.</small>
-        </div>
-        <small>${escapeHtml(player.name)}</small>
-      </div>
-      <div class="private-body">
-        <div class="player-focus">
-          <div class="initials">${escapeHtml(initials(player.name))}</div>
-          <h2>${escapeHtml(player.name)}</h2>
-          <p>Cuando estés preparado, pulsa para ver tu papel. No enseñes la pantalla.</p>
-        </div>
-      </div>
-      <div class="reveal-actions single">
-        <button class="primary-button" data-action="open-reveal" type="button">Ver mi papel</button>
-      </div>
-    </section>
-  `;
-}
-
-function renderOpenReveal(player, role) {
-  const isImpostor = role.type === "impostor";
-  const title = isImpostor ? "Eres el impostor" : "Eres ciudadano";
-  const text = isImpostor
-    ? "No conoces la palabra exacta. Usa la pista, escucha y disimula."
-    : "Conoces la palabra secreta. Da pistas sin decirla directamente.";
-  const label = isImpostor ? "Pista relacionada" : "Palabra secreta";
-  const value = isImpostor ? state.assignment.clue : state.assignment.word;
-  const boxClass = isImpostor ? "secret-box impostor" : "secret-box";
-  const nextLabel = state.currentRevealIndex + 1 === state.players.length ? "Empezar discusión" : "Ocultar y pasar";
-
-  return `
-    <section class="paper-card reveal-card" aria-label="Revelación privada">
-      <div class="private-head">
-        <div>
-          <p class="section-title">Revelación privada</p>
-          <small>No digas lo que ves aquí.</small>
-        </div>
-        <small>${escapeHtml(player.name)}</small>
-      </div>
-      <div class="private-body">
-        <div class="player-focus">
-          <div class="initials">${isImpostor ? "I" : "C"}</div>
-          <h2>${title}</h2>
-          <p>${text}</p>
-          <div class="${boxClass}">
-            <span>${label}</span>
-            <strong>${escapeHtml(value)}</strong>
-          </div>
-          <div class="disclaimer-line">Los demás no ven esta pantalla.</div>
-        </div>
-      </div>
-      <div class="reveal-actions">
-        <button class="secondary-button" data-action="hide-reveal" type="button">Ocultar</button>
-        <button class="primary-button" data-action="next-reveal" type="button">${nextLabel}</button>
-      </div>
-    </section>
-  `;
-}
-
-function renderDiscussionScreen() {
-  return `
-    <div class="stage-inner round-layout">
-      <section class="paper-card round-panel" aria-label="Discusión">
-        <div class="panel-head">
-          <div>
-            <p class="section-title">Fase de discusión</p>
-            <h2>Hablad sin revelar</h2>
-          </div>
-          <div class="count-pill">${state.players.length} jugadores</div>
-        </div>
-        <div class="centered-block">
-          <div class="timer-block">
-            <div class="timer-value">${formatTime(state.timerLeft)}</div>
-            <div class="timer-label">Lanzad pistas, preguntad y observad. Nadie debe decir la palabra exacta ni leer su pista literalmente.</div>
-          </div>
-        </div>
-        <div class="action-grid">
-          <button class="secondary-button" data-action="toggle-timer" type="button">${state.timerRunning ? "Pausar" : "Iniciar"}</button>
-          <button class="secondary-button" data-action="reset-timer" type="button">Reiniciar</button>
-        </div>
-      </section>
-
-      <section class="card round-panel" aria-label="Acciones de ronda">
-        <div class="panel-head">
-          <div>
-            <p class="section-title">Cuando estéis listos</p>
-            <h2>Votación final</h2>
-            <p class="dark-muted">La partida no revela nada hasta confirmar el resultado. Si hay más de un impostor, seleccionad tantos nombres como impostores.</p>
-          </div>
-        </div>
-        <div class="centered-block">
-          <div class="result-list">
-            <div class="result-pill">
-              <small>Objetivo</small>
-              <strong>Elegir al impostor</strong>
-            </div>
-            <div class="result-pill">
-              <small>Ronda</small>
-              <strong>${state.currentRound} de ${state.roundLimit}</strong>
-            </div>
-          </div>
-        </div>
-        <div class="action-grid">
-          <button class="secondary-button" data-action="back-to-reveal" type="button">Revisar turnos</button>
-          <button class="primary-button" data-action="go-vote" type="button">Ir a votar</button>
-        </div>
-      </section>
-    </div>
-  `;
-}
-
-function renderVoteScreen() {
-  const selectedCount = state.selectedVotes.length;
-  const needed = state.impostorCount;
-  return `
-    <div class="stage-inner round-layout">
-      <section class="paper-card round-panel" aria-label="Votación">
-        <div class="panel-head">
-          <div>
-            <p class="section-title">Votación</p>
-            <h2>¿Quién no encaja?</h2>
-            <p>Seleccionad ${needed === 1 ? "un nombre" : `${needed} nombres`}.</p>
-          </div>
-          <div class="count-pill">${selectedCount}/${needed}</div>
-        </div>
-        <div class="vote-list">
-          ${state.players.map((player) => renderVoteRow(player)).join("")}
-        </div>
-        <div class="action-grid">
-          <button class="secondary-button" data-action="go-discussion" type="button">Volver</button>
-          <button class="primary-button" data-action="show-result" type="button" ${selectedCount !== needed ? "disabled" : ""}>Confirmar</button>
-        </div>
-      </section>
-
-      <section class="card round-panel" aria-label="Instrucciones de votación">
-        <div class="panel-head">
-          <div>
-            <p class="section-title">Sin trampas</p>
-            <h2>Resultado oculto</h2>
-            <p class="dark-muted">La palabra y la pista solo se revelan después de confirmar. Hasta entonces, nadie tiene ventaja desde la configuración.</p>
-          </div>
-        </div>
-        <div class="centered-block">
-          <div class="result-list">
-            <div class="result-pill">
-              <small>Ciudadanos tenían</small>
-              <strong>Palabra secreta</strong>
-            </div>
-            <div class="result-pill">
-              <small>Impostores tenían</small>
-              <strong>Pista relacionada</strong>
-            </div>
-          </div>
-        </div>
-        <div class="action-grid">
-          <button class="danger-button" data-action="cancel-round" type="button">Cancelar ronda</button>
-        </div>
-      </section>
-    </div>
-  `;
-}
-
-function renderVoteRow(player) {
-  const selected = state.selectedVotes.includes(player.id);
-  return `
-    <button class="vote-row ${selected ? "selected" : ""}" data-action="toggle-vote" data-id="${player.id}" type="button">
-      <div class="iconless-badge">${escapeHtml(initials(player.name))}</div>
-      <div class="vote-name">${escapeHtml(player.name)}</div>
-      <div class="radio" aria-hidden="true"></div>
+  const categoryButtons = Object.entries(decks).map(([key, deck]) => `
+    <button class="category-btn ${state.category === key ? 'active' : ''}" type="button" data-category="${key}">
+      ${escapeHtml(deck.label)}
     </button>
-  `;
-}
-
-function renderResultScreen() {
-  const impostors = state.assignment.roles
-    .filter((role) => role.type === "impostor")
-    .map((role) => state.players.find((player) => player.id === role.playerId)?.name)
-    .filter(Boolean);
-  const correctIds = state.assignment.roles.filter((role) => role.type === "impostor").map((role) => role.playerId).sort();
-  const voteIds = [...state.selectedVotes].sort();
-  const success = JSON.stringify(correctIds) === JSON.stringify(voteIds);
-  const canContinue = state.currentRound < state.roundLimit;
+  `).join('');
 
   return `
-    <div class="stage-inner round-layout">
-      <section class="paper-card round-panel" aria-label="Resultado">
-        <div class="panel-head">
+    ${header('<button class="icon-button hide-mobile" type="button" data-help>Reglas</button>')}
+    <section class="view workspace setup">
+      <div class="folder">
+        <div class="form-stack">
           <div>
-            <p class="section-title">Resultado</p>
-            <h2>${success ? "Habéis acertado" : "El impostor escapó"}</h2>
-            <p>${success ? "La mesa detectó quién no tenía la palabra." : "La votación no coincidió con el papel real."}</p>
+            <p class="kicker">Preparar expediente</p>
+            <h2 class="section-title">Crear partida</h2>
+            <p class="text">Añade los jugadores en el orden en que se pasarán el móvil. Para cambiar el orden, arrastra el asa de cada nombre.</p>
           </div>
-        </div>
-        <div class="centered-block">
-          <div class="result-list">
-            <div class="result-pill"><small>Impostor${impostors.length > 1 ? "es" : ""}</small><strong>${escapeHtml(impostors.join(", "))}</strong></div>
-            <div class="result-pill"><small>Palabra secreta</small><strong>${escapeHtml(state.assignment.word)}</strong></div>
-            <div class="result-pill"><small>Pista impostor</small><strong>${escapeHtml(state.assignment.clue)}</strong></div>
-          </div>
-        </div>
-        <div class="action-grid">
-          <button class="secondary-button" data-action="go-setup" type="button">Nueva partida</button>
-          <button class="primary-button" data-action="next-round" type="button" ${canContinue ? "" : "disabled"}>${canContinue ? "Siguiente ronda" : "Fin"}</button>
-        </div>
-      </section>
 
-      <section class="card round-panel" aria-label="Resumen de votos">
-        <div class="panel-head">
-          <div>
-            <p class="section-title">Vuestra elección</p>
-            <h2>${renderSelectedNames()}</h2>
-            <p class="dark-muted">Ronda ${state.currentRound} de ${state.roundLimit}. Podéis seguir con los mismos jugadores o volver a configuración.</p>
+          <div class="row-box">
+            <div class="label-block">
+              <strong>Jugadores</strong>
+              <span>Mínimo 3. El creador también juega.</span>
+            </div>
+            <div>
+              <form class="inline-form" data-add-player>
+                <input class="text-input" name="player" autocomplete="off" maxlength="18" placeholder="Nombre del jugador" />
+                <button class="add-btn" type="submit">Añadir</button>
+              </form>
+              <ul class="player-list" data-player-list>${playerItems}</ul>
+            </div>
+          </div>
+
+          <div class="row-box">
+            <div class="label-block">
+              <strong>Impostores</strong>
+              <span>La partida continúa mientras queden más ciudadanos que impostores.</span>
+            </div>
+            <div class="segmented" role="group" aria-label="Número de impostores">
+              ${[1, 2, 3].map(n => `
+                <button type="button" data-impostors="${n}" class="${state.impostorCount === n ? 'active' : ''}" ${n > maxImp ? 'disabled' : ''}>${n}</button>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="row-box">
+            <div class="label-block">
+              <strong>Mazo</strong>
+              <span>Solo mazos del juego. La palabra y la pista se eligen en secreto al empezar.</span>
+            </div>
+            <div class="category-grid">${categoryButtons}</div>
+          </div>
+
+          <div class="action-stack">
+            <button class="primary-btn" type="button" data-start ${canStart ? '' : 'disabled'}>Iniciar reparto</button>
+            <button class="secondary-btn" type="button" data-reset-names>Limpiar jugadores</button>
+          </div>
+          <div class="error-note">${escapeHtml(state.error)}</div>
+        </div>
+      </div>
+
+      <aside class="dark-card help-card">
+        <p class="kicker">Cómo funciona</p>
+        <h2 class="section-title">Nadie ve el secreto antes de jugar.</h2>
+        <p class="text">Al iniciar, la app escoge una palabra y una pista relacionada. Cada jugador mira su pantalla en privado. Los ciudadanos reciben la palabra. Los impostores reciben solo la pista.</p>
+        <div class="rule-diagram">
+          <div class="rule-slip">
+            <span class="slip-label">Ciudadanos</span>
+            <p>Ven la palabra secreta.</p>
+          </div>
+          <div class="rule-slip impostor">
+            <span class="slip-label">Impostores</span>
+            <p>Ven una pista relacionada.</p>
           </div>
         </div>
-        <div class="centered-block">
-          <div class="result-list">
-            <div class="result-pill"><small>Regla</small><strong>La palabra nunca aparece antes de empezar</strong></div>
-            <div class="result-pill"><small>Siguiente</small><strong>${canContinue ? "Nueva palabra y nueva pista" : "Partida terminada"}</strong></div>
-          </div>
-        </div>
-        <div class="action-grid">
-          <button class="secondary-button" data-action="repeat-round" type="button">Repetir ronda</button>
-        </div>
-      </section>
-    </div>
+        <p class="private-note">Durante la votación se elimina a un jugador. Si era ciudadano, la partida no termina automáticamente: solo termina cuando los impostores igualan o superan a los ciudadanos, o cuando todos los impostores quedan fuera.</p>
+      </aside>
+    </section>
   `;
 }
 
-function renderSelectedNames() {
-  const names = state.selectedVotes
-    .map((id) => state.players.find((player) => player.id === id)?.name)
-    .filter(Boolean);
-  return escapeHtml(names.length ? names.join(", ") : "Sin voto");
+function renderReveal() {
+  const current = alivePlayers()[state.revealIndex];
+  const total = alivePlayers().length;
+  if (!current) {
+    state.stage = 'discussion';
+    return renderDiscussion();
+  }
+
+  const player = current;
+  const isImp = player.role === 'impostor';
+  const value = isImp ? state.pair.clue : state.pair.word;
+
+  return `
+    ${header(`<span class="chip">Jugador ${state.revealIndex + 1} de ${total}</span>`)}
+    <section class="view center-stage">
+      <article class="paper reveal-card">
+        <div class="compact-grid">
+          <div class="mini-card"><span>Jugadores vivos</span><strong>${alivePlayers().length}</strong></div>
+          <div class="mini-card"><span>Impostores</span><strong>${remainingImpostors()}</strong></div>
+          <div class="mini-card"><span>Mazo</span><strong>${escapeHtml(decks[state.category].label)}</strong></div>
+        </div>
+
+        ${!state.revealOpen ? `
+          <div class="player-pass">
+            <p class="kicker">Turno privado</p>
+            <h2 class="turn-name">${escapeHtml(player.name)}</h2>
+            <p class="text">Entrega el móvil a esta persona. Nadie más debe mirar la pantalla.</p>
+            <button class="primary-btn" type="button" data-open-role>Ver mi papel</button>
+          </div>
+        ` : `
+          <div class="player-pass">
+            <p class="kicker">${isImp ? 'Papel reservado' : 'Papel ciudadano'}</p>
+            <h2 class="section-title">${isImp ? 'Eres impostor' : 'Eres ciudadano'}</h2>
+            <p class="text">${isImp ? 'No conoces la palabra exacta. Usa la pista y disimula.' : 'Usa esta palabra para dar pistas sin decirla directamente.'}</p>
+            <div class="role-box">
+              <p class="role-label">${isImp ? 'Pista relacionada' : 'Palabra secreta'}</p>
+              <p class="role-word ${isImp ? 'red' : ''}">${escapeHtml(value)}</p>
+            </div>
+            <button class="primary-btn" type="button" data-next-role>${state.revealIndex + 1 === total ? 'Empezar discusión' : 'Ocultar y pasar'}</button>
+          </div>
+        `}
+      </article>
+    </section>
+  `;
 }
 
-function bindInputs() {
-  const input = document.querySelector("#playerName");
-  if (input) {
-    input.addEventListener("input", (event) => {
-      state.playerInput = event.target.value;
-      saveState();
-    });
-  }
+function renderDiscussion() {
+  const survivors = alivePlayers().map(player => `
+    <li><span>${escapeHtml(player.name)}</span><strong>En juego</strong></li>
+  `).join('');
 
-  const category = document.querySelector("#categorySelect");
-  if (category) {
-    category.addEventListener("change", (event) => {
-      state.category = event.target.value;
-      clearError();
+  return `
+    ${header(`
+      <span class="chip">Ronda ${state.round}</span>
+      <span class="chip">${alivePlayers().length} vivos</span>
+    `)}
+    <section class="view workspace game">
+      <div class="discussion-layout">
+        <article class="paper discussion-card">
+          <p class="kicker">Discusión</p>
+          <h2 class="section-title">Hablad sin revelar la palabra.</h2>
+          <p class="text">Dad pistas, preguntad y detectad quién no habla con la misma seguridad. Los eliminados ya no votan ni participan.</p>
+          <div class="clock" data-clock>${formatTime(state.timerLeft)}</div>
+          <div class="timer-actions">
+            <button class="small-btn" type="button" data-timer-toggle>${state.timerRunning ? 'Pausar' : 'Iniciar'}</button>
+            <button class="small-btn secondary" type="button" data-timer-reset>Reiniciar</button>
+          </div>
+        </article>
+
+        <aside class="paper vote-card">
+          <p class="kicker">Jugadores activos</p>
+          <h2 class="section-title">Mesa actual</h2>
+          <ul class="survivor-list">${survivors}</ul>
+          <div class="action-stack">
+            <button class="primary-btn" type="button" data-go-vote>Abrir votación</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+  `;
+}
+
+function renderVote() {
+  const options = alivePlayers().map(player => `
+    <li>
+      <button type="button" data-target="${player.id}" class="${state.selectedTargetId === player.id ? 'selected' : ''}">
+        <span>${escapeHtml(player.name)}</span>
+        <span class="vote-dot" aria-hidden="true"></span>
+      </button>
+    </li>
+  `).join('');
+
+  return `
+    ${header(`<span class="chip">Ronda ${state.round}</span><span class="chip">Votación</span>`)}
+    <section class="view center-stage">
+      <article class="paper vote-card">
+        <p class="kicker">Decisión de la mesa</p>
+        <h2 class="section-title">Elegid a quién sacar de la partida.</h2>
+        <p class="text">Seleccionad al jugador votado por el grupo. Su papel se revelará y la partida continuará si aún no hay ganador.</p>
+        <ul class="vote-list">${options}</ul>
+        <div class="action-stack">
+          <button class="primary-btn" type="button" data-confirm-elimination ${state.selectedTargetId ? '' : 'disabled'}>Confirmar eliminado</button>
+          <button class="secondary-btn" type="button" data-back-discussion>Volver a discutir</button>
+        </div>
+      </article>
+    </section>
+  `;
+}
+
+function renderResult() {
+  const last = state.eliminatedLog[state.eliminatedLog.length - 1];
+  const isImp = last?.role === 'impostor';
+  const status = getWinStatus();
+
+  return `
+    ${header(`<span class="chip">Resultado</span>`)}
+    <section class="view center-stage">
+      <article class="paper result-card">
+        <span class="result-seal stamp">Eliminado</span>
+        <h2 class="result-title ${isImp ? 'red' : ''}">${escapeHtml(last.name)} ${isImp ? 'era impostor' : 'era ciudadano'}</h2>
+        <p class="text">
+          ${status ? status.message : `Quedan ${remainingCitizens()} ciudadanos y ${remainingImpostors()} impostor${remainingImpostors() === 1 ? '' : 'es'}. La partida continúa.`}
+        </p>
+        <div class="action-stack">
+          ${status ? '<button class="primary-btn" type="button" data-show-end>Ver expediente final</button>' : '<button class="primary-btn" type="button" data-continue>Continuar partida</button>'}
+          <button class="secondary-btn" type="button" data-end-now>Terminar y revelar</button>
+        </div>
+      </article>
+    </section>
+  `;
+}
+
+function renderEnd() {
+  const impostors = state.players.filter(p => p.role === 'impostor').map(p => p.name).join(', ');
+  const log = state.eliminatedLog.length ? state.eliminatedLog.map(item => `
+    <li><span>${escapeHtml(item.name)}</span><strong>${item.role === 'impostor' ? 'Impostor' : 'Ciudadano'}</strong></li>
+  `).join('') : '<li><span>Nadie fue eliminado</span><strong>—</strong></li>';
+
+  return `
+    ${header('<span class="chip">Expediente final</span>')}
+    <section class="view center-stage">
+      <article class="paper end-card">
+        <p class="kicker">Solución</p>
+        <h2 class="section-title">Partida cerrada</h2>
+        <div class="solution-grid">
+          <div class="solution-card"><span>Palabra secreta</span><strong>${escapeHtml(state.pair.word)}</strong></div>
+          <div class="solution-card"><span>Pista impostor</span><strong>${escapeHtml(state.pair.clue)}</strong></div>
+        </div>
+        <p class="text"><strong>Impostores:</strong> ${escapeHtml(impostors)}</p>
+        <ul class="log-list">${log}</ul>
+        <div class="action-stack">
+          <button class="primary-btn" type="button" data-new-game>Misma mesa, nueva partida</button>
+          <button class="secondary-btn" type="button" data-setup>Volver a configuración</button>
+        </div>
+      </article>
+    </section>
+  `;
+}
+
+function bindGlobalActions() {
+  document.querySelector('[data-help]')?.addEventListener('click', () => {
+    state.error = 'Regla clave: nadie ve palabra ni pista al crear la partida. Solo se revelan en privado y al final.';
+    render();
+  });
+}
+
+function bindSetupActions() {
+  document.querySelector('[data-add-player]')?.addEventListener('submit', event => {
+    event.preventDefault();
+    const input = event.currentTarget.elements.player;
+    const name = input.value.trim();
+    if (!name) return;
+    if (state.players.some(p => p.name.toLowerCase() === name.toLowerCase())) {
+      state.error = 'Ese nombre ya está en la mesa.';
+      render();
+      return;
+    }
+    if (state.players.length >= 12) {
+      state.error = 'Máximo 12 jugadores.';
+      render();
+      return;
+    }
+    state.players.push({ id: cryptoId(), name, alive: true });
+    state.error = '';
+    input.value = '';
+    saveSetup();
+    render();
+  });
+
+  document.querySelectorAll('[data-remove]').forEach(button => {
+    button.addEventListener('click', () => {
+      state.players = state.players.filter(p => p.id !== button.dataset.remove);
+      state.error = '';
+      saveSetup();
       render();
     });
-  }
+  });
 
-  const timer = document.querySelector("#timerSelect");
-  if (timer) {
-    timer.addEventListener("change", (event) => {
-      state.timerSeconds = Number(event.target.value);
+  document.querySelectorAll('[data-impostors]').forEach(button => {
+    button.addEventListener('click', () => {
+      state.impostorCount = Number(button.dataset.impostors);
+      state.error = '';
+      saveSetup();
+      render();
+    });
+  });
+
+  document.querySelectorAll('[data-category]').forEach(button => {
+    button.addEventListener('click', () => {
+      state.category = button.dataset.category;
+      state.error = '';
+      saveSetup();
+      render();
+    });
+  });
+
+  document.querySelector('[data-reset-names]')?.addEventListener('click', () => {
+    state.players = [];
+    state.error = '';
+    saveSetup();
+    render();
+  });
+
+  document.querySelector('[data-start]')?.addEventListener('click', startGame);
+  bindDragList();
+}
+
+function bindRevealActions() {
+  document.querySelector('[data-open-role]')?.addEventListener('click', () => {
+    state.revealOpen = true;
+    render();
+  });
+
+  document.querySelector('[data-next-role]')?.addEventListener('click', () => {
+    state.revealOpen = false;
+    const total = alivePlayers().length;
+    if (state.revealIndex + 1 >= total) {
+      state.stage = 'discussion';
+      state.revealIndex = 0;
       state.timerLeft = state.timerSeconds;
+    } else {
+      state.revealIndex += 1;
+    }
+    render();
+  });
+}
+
+function bindDiscussionActions() {
+  document.querySelector('[data-go-vote]')?.addEventListener('click', () => {
+    state.stage = 'vote';
+    state.selectedTargetId = null;
+    state.timerRunning = false;
+    render();
+  });
+
+  document.querySelector('[data-timer-toggle]')?.addEventListener('click', () => {
+    state.timerRunning = !state.timerRunning;
+    render();
+  });
+
+  document.querySelector('[data-timer-reset]')?.addEventListener('click', () => {
+    state.timerRunning = false;
+    state.timerLeft = state.timerSeconds;
+    render();
+  });
+
+  if (state.timerRunning) startTimer();
+}
+
+function bindVoteActions() {
+  document.querySelectorAll('[data-target]').forEach(button => {
+    button.addEventListener('click', () => {
+      state.selectedTargetId = button.dataset.target;
       render();
     });
-  }
+  });
 
-  const customRaw = document.querySelector("#customRaw");
-  if (customRaw) {
-    customRaw.addEventListener("input", (event) => {
-      state.customRaw = event.target.value;
-      saveState();
-    });
-    customRaw.addEventListener("blur", render);
-  }
+  document.querySelector('[data-back-discussion]')?.addEventListener('click', () => {
+    state.stage = 'discussion';
+    state.selectedTargetId = null;
+    render();
+  });
 
-  const form = document.querySelector('[data-form="add-player"]');
-  if (form) {
-    form.addEventListener("submit", (event) => {
+  document.querySelector('[data-confirm-elimination]')?.addEventListener('click', () => {
+    const target = state.players.find(p => p.id === state.selectedTargetId);
+    if (!target) return;
+    target.alive = false;
+    state.eliminatedLog.push({ id: target.id, name: target.name, role: target.role });
+    state.selectedTargetId = null;
+    state.stage = 'result';
+    render();
+  });
+}
+
+function bindResultActions() {
+  document.querySelector('[data-continue]')?.addEventListener('click', () => {
+    state.stage = 'discussion';
+    state.round += 1;
+    state.timerRunning = false;
+    state.timerLeft = state.timerSeconds;
+    render();
+  });
+
+  document.querySelector('[data-show-end]')?.addEventListener('click', () => {
+    state.stage = 'end';
+    render();
+  });
+
+  document.querySelector('[data-end-now]')?.addEventListener('click', () => {
+    state.stage = 'end';
+    render();
+  });
+}
+
+function bindEndActions() {
+  document.querySelector('[data-new-game]')?.addEventListener('click', () => {
+    resetForNewGame(false);
+    startGame();
+  });
+
+  document.querySelector('[data-setup]')?.addEventListener('click', () => {
+    resetForNewGame(true);
+    render();
+  });
+}
+
+function bindDragList() {
+  const list = document.querySelector('[data-player-list]');
+  if (!list) return;
+
+  let dragged = null;
+  let pointerId = null;
+
+  list.querySelectorAll('.drag-handle').forEach(handle => {
+    handle.addEventListener('pointerdown', event => {
+      const item = event.currentTarget.closest('.player-item');
+      if (!item) return;
+      dragged = item;
+      pointerId = event.pointerId;
+      dragged.classList.add('dragging');
+      event.currentTarget.setPointerCapture(pointerId);
       event.preventDefault();
-      addPlayer();
     });
-  }
 
-  bindDrag();
-}
+    handle.addEventListener('pointermove', event => {
+      if (!dragged || event.pointerId !== pointerId) return;
+      const siblings = [...list.querySelectorAll('.player-item:not(.dragging)')];
+      const next = siblings.find(item => {
+        const rect = item.getBoundingClientRect();
+        return event.clientY < rect.top + rect.height / 2;
+      });
+      if (next) list.insertBefore(dragged, next);
+      else list.appendChild(dragged);
+    });
 
-app.addEventListener("click", (event) => {
-  const target = event.target.closest("[data-action]");
-  if (!target) return;
-  const action = target.dataset.action;
-  const id = target.dataset.id;
+    const finish = event => {
+      if (!dragged || event.pointerId !== pointerId) return;
+      dragged.classList.remove('dragging');
+      const order = [...list.querySelectorAll('.player-item')].map(item => item.dataset.id);
+      state.players.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+      dragged = null;
+      pointerId = null;
+      saveSetup();
+      render();
+    };
 
-  const actions = {
-    "go-setup": goSetup,
-    "start-game": startGame,
-    "dec-impostors": () => updateImpostors(-1),
-    "inc-impostors": () => updateImpostors(1),
-    "dec-rounds": () => updateRounds(-1),
-    "inc-rounds": () => updateRounds(1),
-    "mode-included": () => setMode("included"),
-    "mode-custom": () => setMode("custom"),
-    "remove-player": () => removePlayer(id),
-    "move-player-up": () => movePlayer(id, -1),
-    "move-player-down": () => movePlayer(id, 1),
-    "open-reveal": () => { state.revealOpen = true; render(); },
-    "hide-reveal": () => { state.revealOpen = false; render(); },
-    "next-reveal": nextReveal,
-    "toggle-timer": toggleTimer,
-    "reset-timer": resetTimer,
-    "go-vote": goVote,
-    "go-discussion": goDiscussion,
-    "back-to-reveal": backToReveal,
-    "toggle-vote": () => toggleVote(id),
-    "show-result": showResult,
-    "cancel-round": cancelRound,
-    "next-round": nextRound,
-    "repeat-round": repeatRound
-  };
-
-  actions[action]?.();
-});
-
-function addPlayer() {
-  const value = (state.playerInput || "").trim();
-  if (!value) return setError("Escribe un nombre antes de añadir.");
-  if (state.players.some((player) => player.name.toLowerCase() === value.toLowerCase())) {
-    return setError("Ese nombre ya está en la lista.");
-  }
-  if (state.players.length >= 16) return setError("Máximo 16 jugadores para que la ronda siga siendo manejable.");
-  state.players.push(createPlayer(value));
-  state.playerInput = "";
-  clearError();
-  render();
-  setTimeout(() => document.querySelector("#playerName")?.focus(), 0);
-}
-
-function removePlayer(id) {
-  if (state.players.length <= 3) return setError("Necesitas al menos 3 jugadores.");
-  state.players = state.players.filter((player) => player.id !== id);
-  state.impostorCount = clamp(state.impostorCount, 1, Math.max(1, Math.min(3, state.players.length - 1)));
-  clearError();
-  render();
-}
-
-function movePlayer(id, direction) {
-  const from = state.players.findIndex((player) => player.id === id);
-  if (from < 0) return;
-  const to = clamp(from + direction, 0, state.players.length - 1);
-  if (from === to) return;
-  const [player] = state.players.splice(from, 1);
-  state.players.splice(to, 0, player);
-  render();
-}
-
-function updateImpostors(delta) {
-  const max = Math.max(1, Math.min(3, state.players.length - 1));
-  state.impostorCount = clamp(state.impostorCount + delta, 1, max);
-  clearError();
-  render();
-}
-
-function updateRounds(delta) {
-  state.roundLimit = clamp(state.roundLimit + delta, 1, 20);
-  render();
-}
-
-function setMode(mode) {
-  state.mode = mode;
-  clearError();
-  render();
+    handle.addEventListener('pointerup', finish);
+    handle.addEventListener('pointercancel', finish);
+  });
 }
 
 function startGame() {
-  stopTimer(false);
-  if (state.players.length < 3) return setError("Necesitas al menos 3 jugadores.");
-  if (state.impostorCount >= state.players.length) return setError("Debe haber más ciudadanos que impostores.");
+  normalizeSettings();
 
-  const deck = getDeck();
-  if (deck.length < 1) return setError("El mazo personalizado necesita al menos una línea válida: Palabra - Pista.");
-
-  const pair = pickRandom(deck);
-  const impostorIds = shuffle(state.players).slice(0, state.impostorCount).map((player) => player.id);
-  state.assignment = {
-    word: pair.word,
-    clue: pair.clue,
-    roles: state.players.map((player) => ({
-      playerId: player.id,
-      type: impostorIds.includes(player.id) ? "impostor" : "citizen"
-    }))
-  };
-  state.currentRevealIndex = 0;
-  state.revealOpen = false;
-  state.timerLeft = state.timerSeconds;
-  state.selectedVotes = [];
-  state.screen = "reveal";
-  clearError();
-  render();
-}
-
-function nextReveal() {
-  if (state.currentRevealIndex < state.players.length - 1) {
-    state.currentRevealIndex += 1;
-    state.revealOpen = false;
+  if (state.players.length < 3) {
+    state.error = 'Añade al menos 3 jugadores.';
     render();
     return;
   }
-  state.revealOpen = false;
-  state.screen = "discussion";
-  state.timerLeft = state.timerSeconds;
-  render();
-}
 
-function backToReveal() {
-  stopTimer(false);
-  state.currentRevealIndex = 0;
-  state.revealOpen = false;
-  state.screen = "reveal";
-  render();
-}
-
-function toggleTimer() {
-  if (state.timerRunning) stopTimer();
-  else startTimer();
-}
-
-function resetTimer() {
-  stopTimer(false);
-  state.timerLeft = state.timerSeconds;
-  render();
-}
-
-function goVote() {
-  stopTimer(false);
-  state.selectedVotes = [];
-  state.screen = "vote";
-  render();
-}
-
-function goDiscussion() {
-  state.screen = "discussion";
-  render();
-}
-
-function toggleVote(id) {
-  const exists = state.selectedVotes.includes(id);
-  if (exists) {
-    state.selectedVotes = state.selectedVotes.filter((voteId) => voteId !== id);
-  } else if (state.selectedVotes.length < state.impostorCount) {
-    state.selectedVotes.push(id);
-  } else {
-    state.selectedVotes = [...state.selectedVotes.slice(1), id];
+  if (state.impostorCount >= state.players.length) {
+    state.error = 'Debe haber más jugadores que impostores.';
+    render();
+    return;
   }
-  render();
-}
 
-function showResult() {
-  if (state.selectedVotes.length !== state.impostorCount) return;
-  state.screen = "result";
-  render();
-}
+  const deck = decks[state.category];
+  state.pair = pick(deck.pairs).reduce((acc, value, index) => {
+    if (index === 0) acc.word = value;
+    if (index === 1) acc.clue = value;
+    return acc;
+  }, {});
 
-function nextRound() {
-  if (state.currentRound >= state.roundLimit) return;
-  state.currentRound += 1;
-  startGame();
-}
-
-function repeatRound() {
-  startGame();
-}
-
-function cancelRound() {
-  stopTimer(false);
-  state.assignment = null;
-  state.screen = "setup";
-  state.selectedVotes = [];
-  render();
-}
-
-function goSetup() {
-  stopTimer(false);
-  state.screen = "setup";
-  state.assignment = null;
-  state.selectedVotes = [];
-  state.revealOpen = false;
-  state.currentRound = 1;
-  render();
-}
-
-function bindDrag() {
-  document.querySelectorAll(".player-row").forEach((row) => {
-    row.addEventListener("dragstart", (event) => {
-      event.dataTransfer.setData("text/plain", row.dataset.playerId);
-      event.dataTransfer.effectAllowed = "move";
-      row.classList.add("dragging");
-    });
-
-    row.addEventListener("dragend", () => {
-      row.classList.remove("dragging");
-    });
-
-    row.addEventListener("dragover", (event) => {
-      event.preventDefault();
-      event.dataTransfer.dropEffect = "move";
-    });
-
-    row.addEventListener("drop", (event) => {
-      event.preventDefault();
-      const draggedId = event.dataTransfer.getData("text/plain");
-      const targetId = row.dataset.playerId;
-      reorderPlayers(draggedId, targetId);
-    });
+  state.players = state.players.map(player => ({ ...player, alive: true, role: 'citizen' }));
+  const shuffledIds = shuffle(state.players.map(p => p.id));
+  const impostorIds = new Set(shuffledIds.slice(0, state.impostorCount));
+  state.players.forEach(player => {
+    player.role = impostorIds.has(player.id) ? 'impostor' : 'citizen';
   });
 
-  document.querySelectorAll("[data-drag-handle]").forEach((handle) => {
-    handle.addEventListener("pointerdown", onPointerDragStart);
-  });
-}
-
-function onPointerDragStart(event) {
-  if (event.pointerType === "mouse" && event.button !== 0) return;
-  const handle = event.currentTarget;
-  const id = handle.dataset.dragHandle;
-  const row = handle.closest(".player-row");
-  dragState = { id, lastTarget: id };
-  row?.classList.add("dragging");
-  handle.setPointerCapture?.(event.pointerId);
-  window.addEventListener("pointermove", onPointerDragMove);
-  window.addEventListener("pointerup", onPointerDragEnd, { once: true });
-}
-
-function onPointerDragMove(event) {
-  if (!dragState) return;
-  const element = document.elementFromPoint(event.clientX, event.clientY);
-  const targetRow = element?.closest?.(".player-row");
-  if (!targetRow) return;
-  const targetId = targetRow.dataset.playerId;
-  if (!targetId || targetId === dragState.id || targetId === dragState.lastTarget) return;
-  dragState.lastTarget = targetId;
-  reorderPlayers(dragState.id, targetId, false);
-}
-
-function onPointerDragEnd() {
-  dragState = null;
-  window.removeEventListener("pointermove", onPointerDragMove);
+  state.stage = 'reveal';
+  state.revealIndex = 0;
+  state.revealOpen = false;
+  state.selectedTargetId = null;
+  state.eliminatedLog = [];
+  state.round = 1;
+  state.timerRunning = false;
+  state.timerLeft = state.timerSeconds;
+  state.error = '';
+  saveSetup();
   render();
 }
 
-function reorderPlayers(draggedId, targetId, shouldRender = true) {
-  if (!draggedId || !targetId || draggedId === targetId) return;
-  const from = state.players.findIndex((player) => player.id === draggedId);
-  const to = state.players.findIndex((player) => player.id === targetId);
-  if (from < 0 || to < 0 || from === to) return;
-  const [player] = state.players.splice(from, 1);
-  state.players.splice(to, 0, player);
-  if (shouldRender) render();
-  else {
-    const list = document.querySelector("#playerList");
-    if (!list) return;
-    list.innerHTML = state.players.map((playerItem, index) => renderPlayerRow(playerItem, index)).join("");
-    bindDrag();
-  }
+function resetForNewGame(goSetup) {
+  state.stage = goSetup ? 'setup' : 'setup';
+  state.players = state.players.map(player => ({ id: cryptoId(), name: player.name, alive: true }));
+  state.pair = null;
+  state.revealIndex = 0;
+  state.revealOpen = false;
+  state.selectedTargetId = null;
+  state.eliminatedLog = [];
+  state.round = 1;
+  state.timerRunning = false;
+  state.timerLeft = state.timerSeconds;
+  state.error = '';
+  saveSetup();
 }
 
-render();
+function normalizeSettings() {
+  const max = maxImpostors();
+  if (state.impostorCount > max) state.impostorCount = max;
+  if (state.impostorCount < 1) state.impostorCount = 1;
+}
+
+function maxImpostors() {
+  return Math.max(1, Math.min(3, Math.floor((state.players.length - 1) / 2)));
+}
+
+function alivePlayers() {
+  return state.players.filter(player => player.alive);
+}
+
+function remainingImpostors() {
+  return alivePlayers().filter(player => player.role === 'impostor').length;
+}
+
+function remainingCitizens() {
+  return alivePlayers().filter(player => player.role === 'citizen').length;
+}
+
+function getWinStatus() {
+  const impostors = remainingImpostors();
+  const citizens = remainingCitizens();
+
+  if (impostors === 0) {
+    return { winner: 'citizens', message: 'Todos los impostores han quedado fuera. Ganan los ciudadanos.' };
+  }
+
+  if (impostors >= citizens) {
+    return { winner: 'impostors', message: 'Los impostores ya igualan o superan a los ciudadanos. Ganan los impostores.' };
+  }
+
+  return null;
+}
+
+function pick(items) {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+function shuffle(items) {
+  const clone = [...items];
+  for (let i = clone.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [clone[i], clone[j]] = [clone[j], clone[i]];
+  }
+  return clone;
+}
+
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
+  const rest = (seconds % 60).toString().padStart(2, '0');
+  return `${minutes}:${rest}`;
+}
+
+function startTimer() {
+  clearInterval(state.timerId);
+  state.timerId = setInterval(() => {
+    if (!state.timerRunning) {
+      clearInterval(state.timerId);
+      return;
+    }
+    state.timerLeft = Math.max(0, state.timerLeft - 1);
+    const clock = document.querySelector('[data-clock]');
+    if (clock) clock.textContent = formatTime(state.timerLeft);
+    if (state.timerLeft <= 0) {
+      state.timerRunning = false;
+      clearInterval(state.timerId);
+      render();
+    }
+  }, 1000);
+}
+
+function stopTimerIfNeeded() {
+  if (state.stage !== 'discussion') {
+    state.timerRunning = false;
+    clearInterval(state.timerId);
+  }
+}
